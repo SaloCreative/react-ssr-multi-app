@@ -15,7 +15,9 @@
 	
 # Introduction 
 
-A simple React-Redux starter app with localisations, server side rendering and pre-fetches.
+A simple **S**ingle **P**age **A**pplication (SPA) relies on fetching and rendering all the data on the client side. For some applications this is fine, especially hobby projects, but for any application that needs to be accessible, shareable or SEO friendly then we need to be able to pre-fetch data on the server side and render a fully formed view without loading the app first. 
+
+Having worked on a number of React-Redux apps recently that require localisations, server side rendering and pre-fetches I have put together this project. I have deliberately avoided things such as razzle and next.js so as to retian full control of the process and not become tied into these libraries ways of structuring applications, routing and auth handling.
 
 The main features are: 
 
@@ -110,7 +112,7 @@ there are additional tasks that are run as part of build and dev tasks but these
 In order to perform the server side fetches I have stolen the approach utilised by next.js. Available in the top level route components (home, 404 etc) you can call `getInitialProps` as a static method. This method is picked up in the express application and passes down some context to enable fetches to be made and update the redux store on the server side pre-render.
 
 ```
-class MyClass extends React.Component {
+class MyClass extends Component {
 
 	static getInitialProps(store, match, token) {
 	    return Promise.all([
@@ -134,7 +136,7 @@ You will notice that the getInitialProps returns an array of promises which is i
 As you change routes the subsequent requests are made on the client side so you need to make sure that any data that should be fetched in `getInitialProps` is validated in `componentDidMount` (componentWillMount runs on the server so no use in this instance) as well to ensure the application works in all instances e.g.
 
 ```
-class MyClass extends React.Component {
+class MyClass extends Component {
 
 	// getInitialProps code
 	
@@ -170,6 +172,21 @@ By default, it is configured to load the 'common' namespace which means it will 
 Where `t('LOGGED_IN')` would output `Logged in` if the language is set to English. `t` is a prop that will be passed to your component when it is passed through the `translate` HOC (see components/dashboard-tiles/index.js for an example of this).
 
 The client and server configuration is separated as the files are loaded in differently between the two. Languages are only loaded if the language code is in the config/index.js array.
+
+# Todo
+
+- [x] Document internationalisation
+- [ ] Add a language switcher
+- [ ] Fix menu links for `de` site
+- [ ] Add example of language fetches
+- [ ] Add an about route
+- [ ] Implement an error boundary
+- [x] Implement `@salocreative/react-redux-alerts example`
+- [ ] Implement Loading wrapper
+- [ ] Document actions approach
+- [ ] Flesh out auth example
+- [ ] Upgrade `react-redux-middleware`
+
 
 # Credit
 
