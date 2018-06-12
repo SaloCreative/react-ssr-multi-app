@@ -1,5 +1,5 @@
 {
-  "name": "react-redux-starter",
+  "name": "react-ssr-multi-app",
   "description": "A universally rendered React-Redux, multilingual multi application starter",
   "version": "1.0.0",
   "codename": "apple",
