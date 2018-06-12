@@ -2,6 +2,7 @@
 
 * [Introduction](#introduction)
 * [Setup](#setup)
+	* [Adding apps](#adding-apps) 
 	* [Development](#development) 
 	* [Build](#build)
 	* [npm tasks](#all-npm-tasks)
@@ -15,9 +16,19 @@
 	
 # Introduction 
 
+This application is based on the react-redux-stater built previously. The idea of this application is to provide a proof of concept of how a universally rendered multi react instance might work. The motivation for this is:
+
+- allow the splitting of large applications without multiple repos
+- maintain simple dependency management
+- allow encapsulated, flexible application structures suitable for customisation of individual apps whilst keeping a single repo
+- allow simple sharing of render methods and centralised config
+- implement a full node/express router to allow additional services to be run within the application. In theory you could serve a simple node website with React portals available on additional routes e.g. a CMS with front end where the two can be built in the most appropriate way
+
+### The react goodness
+
 A simple **S**ingle **P**age **A**pplication (SPA) relies on fetching and rendering all the data on the client side. For some applications this is fine, especially hobby projects, but for any application that needs to be accessible, shareable or SEO friendly then we need to be able to pre-fetch data on the server side and render a fully formed view without loading the app first. 
 
-Having worked on a number of React-Redux apps recently that require localisations, server side rendering and pre-fetches I have put together this project. I have deliberately avoided things such as razzle and next.js so as to retian full control of the process and not become tied into these libraries ways of structuring applications, routing and auth handling.
+Having worked on a number of React-Redux apps recently that require localisations, server side rendering and pre-fetches I have put together this project. I have deliberately avoided things such as razzle and next.js so as to retain full control of the process and not become tied into these libraries ways of structuring applications, routing and auth handling.
 
 The main features are: 
 
@@ -37,6 +48,16 @@ first of all clone down the repo and then run `yarn` to pull in all the dependen
 
 ```
 $ yarn
+```
+
+## Adding apps
+
+The repo has centralised config files for handling the rendering and store configuration for the react apps. The react `source/js/apps` live inside the apps folder, namespace relative to the stub url they will be served on. These are pulled together via `source/js/server/routes.js` and then individual controllers for each application found in `source/js/server/controllers`. In order to build the apps you must also add your application to the array at the top of the `webpack.config.js` file.
+
+You can manually add apps, routes and contollers as you need, especially if you have your own app structures or need a route that isn't for react. However, for ease there is a helper script to automatically generate the new applications for you. Simply run the below and it will clone the contents of the base app in the lib folder for you replacing the config as needed: 
+
+```
+$ yarn add:app
 ```
 
 ## Development
@@ -156,12 +177,12 @@ Internationalisation is handled by [i18next](https://react.i18next.com/). There 
 ```
 locales
 ├── en
-│   └── common.json
+│   └── dashboard.json
 └── es
-    └── common.json
+    └── dashboard.json
 ```
 
-By default, it is configured to load the 'common' namespace which means it will look for common.json. It caches these files into local storage. common.json contains a list of keys and values:
+By default, it is configured to load the applications namespace e.g. 'dashboard' namespace which means it will look for dashboard.json. It caches these files into local storage. dashboard.json contains a list of keys and values:
 
 ```
 {
