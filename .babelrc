@@ -1,0 +1,28 @@
+{
+  "plugins": [
+    "transform-decorators-legacy",
+    "transform-class-properties",
+    "syntax-decorators",
+    ["babel-plugin-styled-components", {
+      "ssr": true
+    }]
+  ],
+  "presets": [
+    ["env", { "modules": false }],
+    "stage-0",
+    "react"
+  ],
+  "env": {
+    "test": {
+      "presets": ["env", "stage-0", "react"]
+    },
+    "development": {
+      "plugins": [
+        "react-hot-loader/babel"
+      ]
+    },
+    "production": {
+      "presets": ["react-optimize"]
+    }
+  }
+}
