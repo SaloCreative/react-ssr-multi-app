@@ -31,4 +31,4 @@ NotFound.propTypes = {
   t: PropTypes.func.isRequired
 };
 
-export default translate([Appconfig.name])(Page(NotFound));
+export default Page(translate([Appconfig.name])(NotFound));

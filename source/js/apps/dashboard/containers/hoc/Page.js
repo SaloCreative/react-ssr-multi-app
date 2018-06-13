@@ -48,8 +48,6 @@ export default function Page(ComposedComponent) {
 
     componentDidMount() {
       const { languageValid } = this.state;
-      console.log('mounted');
-      console.log(languageValid);
       if (!languageValid) {
         const url = HOME.path.replace(':language', 'en');
         history.push(url);

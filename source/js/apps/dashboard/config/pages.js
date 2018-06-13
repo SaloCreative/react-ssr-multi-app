@@ -1,9 +1,9 @@
 import AppConfig from '../config';
 
-const base = `/:language/${ AppConfig.name }`;
+const base = `/${ AppConfig.name }/:language`;
 
 export const HOME = {
-  path: `${ base }/`
+  path: `${ base }`
 };
 
 export const WHOOPS = {
