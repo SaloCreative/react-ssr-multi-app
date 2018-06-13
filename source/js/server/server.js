@@ -9,9 +9,9 @@ const Server = ({ location, context, AppContainer }) => (
 );
 
 Server.propTypes = {
-  location: PropTypes.string,
-  context: PropTypes.object,
-  AppContainer: PropTypes.func
+  location: PropTypes.string.isRequired,
+  context: PropTypes.object.isRequired,
+  AppContainer: PropTypes.func.isRequired
 };
 
 export default Server;

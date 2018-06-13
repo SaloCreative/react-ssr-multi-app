@@ -6,7 +6,7 @@ import serialize from 'serialize-javascript';
 import { outputFiles } from '../../../webpack/output-files';
 
 const ServerHtml = ({
-  appHtml, dehydratedState, helmet, styles, i18n, appName
+  appHtml, state, helmet, styles, i18n, appName
 }) => (
   <html lang={ i18n.locale }>
     <head>
@@ -20,9 +20,18 @@ const ServerHtml = ({
       <link rel='stylesheet' href={ `/${ outputFiles.css }` } />
     </head>
     <body>
-      <div id='root' dangerouslySetInnerHTML={ { __html: appHtml } } />
-      <script type='text/javascript' dangerouslySetInnerHTML={ { __html: `var __SALO_CREATIVE_DEHYDRATED_STATE = ${ dehydratedState };` } } />
-      <script dangerouslySetInnerHTML={ { __html: `window.__i18n=${ serialize(i18n) };` } } charSet='UTF-8' />
+      <div
+        id='root'
+        dangerouslySetInnerHTML={ { __html: appHtml } } // eslint-disable-line
+      />
+      <script
+        type='text/javascript'
+        dangerouslySetInnerHTML={ { __html: `window.__SALO_CREATIVE_STATE__=${ state };` } } // eslint-disable-line
+      />
+      <script
+        charSet='UTF-8'
+        dangerouslySetInnerHTML={ { __html: `window.__i18n=${ serialize(i18n) };` } } // eslint-disable-line
+      />
       <script type='text/javascript' src={ `/${ outputFiles.vendor }` } />
       <script type='text/javascript' src={ `/${ outputFiles.client.replace(':name', appName) }` } />
       <script src='https://cdn.polyfill.io/v2/polyfill.min.js' />
@@ -32,14 +41,19 @@ const ServerHtml = ({
 
 ServerHtml.propTypes = {
   appHtml: PropTypes.string.isRequired,
-  dehydratedState: PropTypes.string.isRequired,
-  appName: PropTypes.string.isRequired
+  state: PropTypes.string.isRequired,
+  appName: PropTypes.string.isRequired,
+  helmet: PropTypes.object.isRequired,
+  styles: PropTypes.object.isRequired,
+  i18n: PropTypes.object.isRequired
 };
 
-const getServerHtml = (appHtml, dehydratedState = null, helmet, styles, i18n, appName) => {
+const getServerHtml = ({
+  appHtml, state, helmet, styles, i18n, appName
+}) => {
   return `<!doctype html>${ ReactDOMServer.renderToString(<ServerHtml
     appHtml={ appHtml }
-    dehydratedState={ dehydratedState }
+    state={ state }
     helmet={ helmet }
     styles={ styles }
     i18n={ i18n }
