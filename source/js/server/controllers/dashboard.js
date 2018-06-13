@@ -4,7 +4,7 @@ import 'babel-polyfill';
 
 // Server functions
 import { getToken, getLocaleParams, initialPropsFetch } from '../helpers';
-import render from '../helpers/render';
+import RenderRedux from '../helpers/RenderRedux';
 
 // ============================== //
 // ==== APP SPECIFIC IMPORTS ==== //
@@ -40,7 +40,7 @@ const showApp = (req, res) => {
   });
 
   // RENDER FUNCTION
-  return render({
+  return RenderRedux({
     res, AppContainer, promises, locale, store, url: req.url, appName: 'dashboard'
   });
 };

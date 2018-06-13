@@ -11,7 +11,8 @@ const isProduction = ENV !== 'development';
 let INIT_STATE = null;
 
 try {
-  INIT_STATE = __SALO_CREATIVE_DEHYDRATED_STATE; // eslint-disable-line no-undef
+  INIT_STATE = window.__SALO_CREATIVE_STATE__; // eslint-disable-line
+  console.log(INIT_STATE);
 } catch (e) {
   console.log('Salo Creative: No dehydrated state'); // eslint-disable-line no-console
 }
