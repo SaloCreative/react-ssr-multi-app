@@ -1,5 +1,4 @@
 const entryPoints = [
-  'dashboard'
 ];
 
 const webpack = require('webpack');
