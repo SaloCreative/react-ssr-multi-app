@@ -4,7 +4,7 @@ import 'babel-polyfill';
 
 // Server functions
 import { getToken, getLocaleParams, initialPropsFetch } from '../helpers';
-import RenderRedux from '../helpers/RenderRedux';
+import RenderRedux from '../../render/redux/renderRedux';
 
 // ============================== //
 // ==== APP SPECIFIC IMPORTS ==== //
