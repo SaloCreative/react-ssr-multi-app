@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import i18next from 'i18next';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 
@@ -14,14 +15,15 @@ export default function Page(ComposedComponent) {
   class composedPage extends React.Component {
     componentWillMount() {
       const { match } = this.props;
-      const languageChanged = match.params.language !== i18next.language;
+      const { language } = match.params;
+      const languageChanged = language !== i18next.language;
       const languageWhitelist = CONFIG.languages;
-      const languageInWhitelist = languageWhitelist.indexOf(match.params.language) !== -1;
+      const languageInWhitelist = languageWhitelist.includes(language);
   
-      if (match.params.language) {
-        if (!languageInWhitelist) { goToNotFound(); }
+      if (language) {
+        if (!languageInWhitelist) { goToNotFound('en'); }
         if (languageChanged) {
-          i18next.changeLanguage(match.params.language);
+          i18next.changeLanguage(language);
           try {
             localStorage.clear();
             localStorage.setItem('version', VERSION);
@@ -41,6 +43,10 @@ export default function Page(ComposedComponent) {
       ]);
     }
   }
+
+  composedPage.propTypes = {
+    match: PropTypes.object.isRequired
+  };
   hoistNonReactStatic(composedPage, ComposedComponent);
   composedPage.displayName = `Page(${ getDisplayName(ComposedComponent) })`;
   return composedPage;

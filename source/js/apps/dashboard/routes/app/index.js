@@ -5,7 +5,7 @@ import { Alerts } from '@salocreative/react-redux-alerts';
 import { translate } from 'react-i18next';
 
 // COMPONENTS
-import Menu from '../../components/Menu';
+import Menu from '../../components/menu';
 
 // HELPERS
 import renderRoutes from '../../../../helpers/renderRoutes';
@@ -36,7 +36,7 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  t: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired,
   systemAlerts: PropTypes.array.isRequired
 };
 

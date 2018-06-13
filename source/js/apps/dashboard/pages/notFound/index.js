@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 
 // COMPONENTS
-import Page from '../../containers/hoc/Page';
+import Page from '../../containers/hoc/page';
 
 // HELPERS
 import Appconfig from '../../config';

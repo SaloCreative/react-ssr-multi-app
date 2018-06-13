@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 // COMPONENTS
-import Page from '../../containers/hoc/Page';
+import Page from '../../containers/hoc/page';
 
 // HELPERS
 import Appconfig from '../../config';
