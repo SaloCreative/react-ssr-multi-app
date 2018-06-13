@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import Helmet from 'react-helmet';
 import { I18nextProvider } from 'react-i18next';
 import createi18nServerInstance from '../i18n.server'; // initialised i18next instances
-import getServerHtml from '../../config/server-html';
+import getServerHtml from '../../render/serverHTML';
 import Server from '../../components/app/server';
 
 export default ({

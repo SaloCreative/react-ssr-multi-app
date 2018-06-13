@@ -12,7 +12,6 @@ let INIT_STATE = null;
 
 try {
   INIT_STATE = window.__SALO_CREATIVE_STATE__; // eslint-disable-line
-  console.log(INIT_STATE);
 } catch (e) {
   console.log('Salo Creative: No dehydrated state'); // eslint-disable-line no-console
 }

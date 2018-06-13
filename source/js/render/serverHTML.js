@@ -48,7 +48,9 @@ ServerHtml.propTypes = {
   i18n: PropTypes.object.isRequired
 };
 
-const getServerHtml = ({ appHtml, state, helmet, styles, i18n, appName }) => {
+const getServerHtml = ({
+  appHtml, state, helmet, styles, i18n, appName
+}) => {
   return `<!doctype html>${ ReactDOMServer.renderToString(<ServerHtml
     appHtml={ appHtml }
     state={ state }

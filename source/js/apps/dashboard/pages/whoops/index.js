@@ -19,7 +19,6 @@ class NotFound extends React.Component {
       </Helmet>,
       <div key='page' className='error-message'>
         <div className='error-message__container'>
-          <a onClick={ () => history.go(-1) } role='button' tabIndex='-1'>Back</a>
           <h2 className='error-message__title'>{ t('WHOOPS_TITLE') }</h2>
           <p className='error-message__text'>{ t('WHOOPS_TEXT') }</p>
         </div>

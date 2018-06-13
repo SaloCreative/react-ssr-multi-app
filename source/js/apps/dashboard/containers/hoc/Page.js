@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import i18next from 'i18next';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 
-import { goToNotFound, isBrowser } from '../../../../helpers';
+// HELPERS
+import { isBrowser } from '../../../../helpers';
+import history from '../../../../config/browserHistory';
 import CONFIG from '../../../../config';
 import Loader from '../../../../components/loader';
+import { HOME } from '../../config/pages';
 
 function getDisplayName(ComposedComponent) {
   return ComposedComponent.displayName || ComposedComponent.name || 'Component';
@@ -13,16 +16,24 @@ function getDisplayName(ComposedComponent) {
 
 export default function Page(ComposedComponent) {
   class composedPage extends React.Component {
-    componentWillMount() {
-      const { match } = this.props;
-      const { language } = match.params;
-      const languageChanged = language !== i18next.language;
-      const languageWhitelist = CONFIG.languages;
-      const languageInWhitelist = languageWhitelist.includes(language);
-  
+    state = {
+      languageValid: true
+    };
+
+    static getDerivedStateFromProps(nextProps) {
+      const { language } = nextProps.match.params;
+      const languageInWhitelist = CONFIG.languages.includes(language);
+      
       if (language) {
-        if (!languageInWhitelist) { goToNotFound('en'); }
-        if (languageChanged) {
+        // Redirect if not a whitelisted language
+        if (!languageInWhitelist) {
+          return {
+            languageValid: false
+          };
+        }
+        
+        // Check if the language has changed
+        if (language !== i18next.language) {
           i18next.changeLanguage(language);
           try {
             localStorage.clear();
@@ -32,15 +43,30 @@ export default function Page(ComposedComponent) {
           }
         }
       }
+      return null;
+    }
+
+    componentDidMount() {
+      const { languageValid } = this.state;
+      console.log('mounted');
+      console.log(languageValid);
+      if (!languageValid) {
+        const url = HOME.path.replace(':language', 'en');
+        history.push(url);
+      }
     }
     
     render() {
-      const loading = false;
+      const { languageValid } = this.state;
+      if (!languageValid) return null;
 
-      return ([
-        loading && isBrowser && <Loader key='loader' ready={ !loading } />,
-        !loading && <ComposedComponent key='component' { ...this.props } />
-      ]);
+      const loading = false;
+      return (
+        <React.Fragment>
+          { loading && isBrowser && <Loader ready={ !loading } /> }
+          { !loading && <ComposedComponent { ...this.props } /> }
+        </React.Fragment>
+      );
     }
   }
 
