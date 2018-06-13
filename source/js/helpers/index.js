@@ -14,12 +14,3 @@ export function ssrSafeRedirect(url) {
 }
 
 export const ENV = process.env.NODE_ENV;
-
-export function goToNotFound(language) {
-  if (isBrowser) {
-    return history.push(`/${ language }/404`, {
-      referrer: isBrowser ? window.location.href : ''
-    });
-  }
-  return serverHistory.push(`/${ language }/404`);
-}
