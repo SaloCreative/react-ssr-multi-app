@@ -4,14 +4,14 @@ import 'babel-polyfill';
 
 // Server functions
 import { getToken, getLocaleParams, initialPropsFetch } from '../helpers';
-import RenderRedux from '../../render/redux/renderRedux';
+import RenderRedux from '../renderRedux';
 
 // ============================== //
 // ==== APP SPECIFIC IMPORTS ==== //
 // ============================== //
 
 import routesConfig from '../../apps/dashboard/routes';
-import App from '../../apps/dashboard/routes/app';
+import App from '../../apps/dashboard/routes/app/app';
 import AppContainer from '../../apps/dashboard/routes/app/container';
 
 // Import builder for this apps store

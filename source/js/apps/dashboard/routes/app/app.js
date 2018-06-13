@@ -8,7 +8,7 @@ import { translate } from 'react-i18next';
 import Menu from '../../components/menu';
 
 // HELPERS
-import renderRoutes from '../../../../render/renderRoutes';
+import renderRoutes from '../../../../components/app/renderRoutes';
 import routesConfig from '../index';
 import Appconfig from '../../config';
 

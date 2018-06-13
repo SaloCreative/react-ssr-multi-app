@@ -4,9 +4,9 @@ import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
 import { Provider } from 'react-redux';
 import Helmet from 'react-helmet';
 import { I18nextProvider } from 'react-i18next';
-import createi18nServerInstance from '../i18n.server'; // initialised i18next instances
-import getServerHtml from '../../render/serverHTML';
-import Server from '../../components/app/server';
+import createi18nServerInstance from './i18n.server'; // initialised i18next instances
+import getServerHtml from './serverHTML';
+import Server from './server';
 
 export default ({
   res, AppContainer, promises, locale, store, url, appName
