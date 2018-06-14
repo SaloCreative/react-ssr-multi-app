@@ -1,0 +1,54 @@
+// Calculate
+// =========
+@function width($value, $unit, $width: $page-width) {
+  @return #{($width * $value) / 100 }$unit;
+};
+
+.container {
+  width: 100%;
+  max-width: width(100, px);
+  margin: 0 auto;
+  position: relative;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px;
+}
+
+.cell {
+  padding: 10px;
+}
+
+@for $i from 1 through 20 {
+  .cell:nth-child(#{$i}) {
+    order: $i;
+  }
+}
+
+// Classes
+// =======
+// @for $i from 1 through $max_column_count {
+//   .is-#{$i} {
+//     flex-basis: percentage($i / $max_column_count);
+//     max-width: percentage($i / $max_column_count);
+//   }
+// }
+
+// @each $key, $val in $i {
+//   @media all and (min-width: $val + 0px) {
+//     @for $i from 1 through $max_column_count {
+//       .#{$key}-is-#{$i} {
+//         flex-basis: percentage($i / $max_column_count);
+//         max-width: percentage($i / $max_column_count);
+//       }
+//     }
+//   }
+// }

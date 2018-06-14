@@ -1,0 +1,4 @@
+// Unit stripper [10px = 10]
+@function strip-unit($num) {
+     @return $num / ($num * 0 + 1);
+}
