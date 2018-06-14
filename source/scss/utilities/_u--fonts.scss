@@ -1,27 +1,41 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
+
 @font-face {
-    font-family: helvetica;
-    src: url("/assets/fonts/helvetica/HelveticaNeueLTStd-Roman.otf");
-    
-    font-weight: 400;
+    font-family: 'bebas_neuebold';
+    src: url('../assets/fonts/bebasneue_bold-webfont.woff2') format('woff2'),
+         url('../assets/fonts/bebasneue_bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
 @font-face {
-    font-family: helvetica;
-    src: url("/assets/fonts/helvetica/HelveticaNeueLTStd-Bd.otf");
-    src: url("/assets/fonts/helvetica/HelveticaNeueLTStd-Bd.woff") format("woff"),
-         url("/assets/fonts/helvetica/HelveticaNeueLTStd-Bd.ttf") format("truetype");
-    
-    font-weight: 600;
+    font-family: 'bebas_neuebook';
+    src: url('../assets/fonts/bebasneue_book-webfont.woff2') format('woff2'),
+         url('../assets/fonts/bebasneue_book-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
 @font-face {
-    font-family: 'LushHandwritten';
-    src: url("/assets/fonts/handwritten/lushhandwritten_wlat_bd-webfont.eot");
-    src: url("/assets/fonts/handwritten/lushhandwritten_wlat_bd-webfont.eot?#iefix") format("embedded-opentype"),
-         url("/assets/fonts/handwritten/lushHandwritten_wlat_bd-webfont.woff2") format("woff2"),
-         url("/assets/fonts/handwritten/lushHandwritten_wlat_bd-webfont.woff") format("woff"),
-         url("/assets/fonts/handwritten/lushHandwritten_wlat_bd-webfont.ttf") format("truetype"),
-         url("/assets/fonts/handwritten/lushhandwritten_wlat_bd-webfont.svg#lush_handwritten_wlatbold") format("svg");
+    font-family: 'bebas_neuelight';
+    src: url('../assets/fonts/bebasneue_light-webfont.woff2') format('woff2'),
+            url('../assets/fonts/bebasneue_light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'bebas_neueregular';
+    src: url('../assets/fonts/bebasneue_regular-webfont.woff2') format('woff2'),
+         url('../assets/fonts/bebasneue_regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'bebas_neuethin';
+    src: url('../assets/fonts/bebasneue_thin-webfont.woff2') format('woff2'),
+         url('../assets/fonts/bebasneue_thin-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
