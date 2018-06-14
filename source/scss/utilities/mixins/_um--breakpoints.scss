@@ -1,0 +1,33 @@
+// The shorthand breakpoints!
+// Built by: James Bliss
+// Version: 0.1
+// ===========================
+
+// Media query constructor for max-width
+@mixin bp_max($pxValue) {
+    $unitLessValue: strip-unit($pxValue);
+    $value: pxToEM($unitLessValue);
+    @media all and (max-width: $value) {
+         @content;
+    }
+}
+
+// Media query constructor for min-width
+@mixin bp_between($lowPxValue, $highPxVlue) {
+    $unitLessLowValue: strip-unit($lowPxValue);
+    $unitLessHightValue: strip-unit($highPxVlue);
+    $valueLow: pxToEM($unitLessLowValue);
+    $valueHigh: pxToEM($unitLessHightValue);
+    @media all and (min-width: $valueLow) and (max-width: $valueHigh) {
+         @content;
+    }
+}
+
+// Media query constructor for min-width
+@mixin bp_min($pxValue) {
+    $unitLessValue: strip-unit($pxValue);
+    $value: pxToEM($unitLessValue);
+    @media all and (min-width: $value) {
+         @content;
+    }
+}

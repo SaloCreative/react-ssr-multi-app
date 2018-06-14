@@ -1,0 +1,77 @@
+// visual_states
+// Built by: James Bliss
+// Version: 0.1
+// Notes: Managing visual states of elements
+// ===========================
+
+// Hide visually and from screen readers
+.is-hidden {
+    display: none !important;
+    visibility: hidden;
+}
+
+// breakpoint based utilites
+@each $key, $val in $helper-breakpoints {
+     @media all and (min-width: $val + 0px){
+        .show-from-#{$key} {
+            display: none !important;
+            visibility: hidden;
+        }
+    }
+}
+
+@each $key, $val in $helper-breakpoints {
+     @media all and (max-width: $val + -1px){
+        .hide-from-#{$key} {
+            display: none !important;
+            visibility: hidden;
+        }
+    }
+}
+
+// Hide only visually, but have it available for screen readers
+%sr-only,
+.sr-only,
+.visually-hidden,
+.visually_hidden {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+// breakpoint based utilites
+@each $key, $val in $helper-breakpoints {
+     @media all and (min-width: $val + 0px){
+        .#{$key}-sr-only {
+            border: none;
+            clip: rect(0 0 0 0);
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+            width: 1px;
+        }
+    }
+}
+
+// Extends the .visually_hidden class to allow the element
+// to be focusable when navigated to via the keyboard
+.sr-only.focusable:active,
+.sr-only.focusable:focus,
+.visually-hidden.focusable:active,
+.visually-hidden.focusable:focus,
+.visually_hidden.focusable:active,
+.visually_hidden.focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+}
