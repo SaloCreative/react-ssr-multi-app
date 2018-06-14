@@ -8,12 +8,8 @@
 // utilities
 // --------
 // functions
-@import 'utilities/functions/uf--strip_unit';
-@import 'utilities/functions/uf--px_to_em';
 @import 'utilities/functions/uf--opacity_sim';
-@import 'utilities/functions/uf--map_read';
 // mixins
-@import 'utilities/mixins/um--breakpoints';
 @import 'utilities/mixins/um--screen_reader';
 @import 'utilities/mixins/um--break';
 @import 'utilities/mixins/um--box-shadows';
@@ -23,6 +19,7 @@
 // helpers / misc
 // --------
 @import 'utilities/u--visual_states';
+@import 'utilities/u--fonts';
 
 // --------
 // layout

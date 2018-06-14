@@ -1,9 +1,3 @@
-// Calculate
-// =========
-@function width($value, $unit, $width: $page-width) {
-  @return #{($width * $value) / 100 }$unit;
-};
-
 .container {
   width: 100%;
   max-width: width(100, px);

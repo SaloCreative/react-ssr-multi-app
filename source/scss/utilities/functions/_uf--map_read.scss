@@ -1,5 +1,0 @@
-// Quick helper for return value from SASS map
-// usage: m($name_of_map, 'name_of_key_value');
-@function m($map, $key) {
-     @return map-get($map, $key);
-}
