@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const LogoWrap = styled.div`
-  font-size: 30px;
+  font-size: ${ props => props.width }px;
   margin: 2.5em auto;
   max-width: 20em;
   width: 100%;
@@ -35,6 +35,10 @@ const TagLine = styled.span`
 `;
 
 class Logo extends React.Component {
+  evaluateWidth() {
+    const { width } = this.props;
+    return parseInt(width, 10) / 20;
+  }
   renderTagLine() {
     const { showTagLine } = this.props;
     if (!showTagLine) return null;
@@ -42,7 +46,7 @@ class Logo extends React.Component {
   }
   render() {
     return (
-      <LogoWrap>
+      <LogoWrap width={ this.evaluateWidth() }>
         <SVGContainer>
           <SVG
             version='1.0'
