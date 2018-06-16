@@ -1,18 +1,13 @@
+// Main dependencies
+// =================
+
 @import 'dependency';
 
-// Main dependencies
+// Configuration
 // =================
 
 html {
   font-size: 10px;
-
-  @include lg {
-    font-size: 12px;
-  }
-
-  @include xl {
-    font-size: 14px;
-  }
 }
 
 body {
@@ -24,16 +19,37 @@ body {
   font-family: $font-family-header;
 }
 
-h1 {
-  font-size: 20px;
-  margin: 30px 0 10px;
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-family-header;
+  color: #333;
 }
 
-table {
-  margin: 20px;
+p {
+  color: #333;
+  font-family: $font-family-sans-serif;
 }
 
-th {
-  text-align: left;
-  font-weight: 700;
+a {
+  color: $grey-text;
+}
+
+a:hover {
+  color: $black;
+}
+
+button {
+  background: transparent;
+  border-radius: 1.6rem;
+  border: 0.1rem solid $black;
+  cursor: pointer;
+  font-size: 1.5rem;
+  padding: 0.7rem 2rem;
+}
+
+button:disabled {
+  opacity: 0.3;
+}
+
+button:hover {
+  background: $white;
 }
