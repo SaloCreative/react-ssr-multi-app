@@ -36,20 +36,3 @@ a {
 a:hover {
   color: $black;
 }
-
-button {
-  background: transparent;
-  border-radius: 1.6rem;
-  border: 0.1rem solid $black;
-  cursor: pointer;
-  font-size: 1.5rem;
-  padding: 0.7rem 2rem;
-}
-
-button:disabled {
-  opacity: 0.3;
-}
-
-button:hover {
-  background: $white;
-}

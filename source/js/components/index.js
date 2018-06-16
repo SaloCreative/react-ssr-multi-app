@@ -4,6 +4,7 @@ import Row from './atoms/row';
 import Column from './atoms/column';
 import Sidebar from './atoms/sidebar';
 import { H1, H2, H3, H4, H5, H6 } from './atoms/headings';
+import Button from './atoms/button';
 
 // MOLECULES
 import Logo from './molecules/logo';
@@ -15,6 +16,7 @@ export {
   Column,
   Sidebar,
   H1, H2, H3, H4, H5, H6,
+  Button,
   // Molecules
   Logo
 };
