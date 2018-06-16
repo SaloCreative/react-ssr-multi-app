@@ -16,8 +16,15 @@ export default ({
   // HANDLE LOCALES
   const i18nServer = i18n.cloneInstance();
   i18nServer.changeLanguage(locale, () => { // call back required as change language is asyncronous
-    const resources = i18n.getResourceBundle(locale, appName);
-    const i18nClient = { locale, resources };
+    const app = i18n.getResourceBundle(locale, appName);
+    const common = i18n.getResourceBundle(locale, 'common');
+    const i18nClient = {
+      locale,
+      resources: {
+        [appName]: app,
+        common
+      }
+    };
     // Context is passed to the StaticRouter and it will attach data to it directly
     const context = {};
     const sheet = new ServerStyleSheet();

@@ -31,7 +31,8 @@ function buildI18nStore(appName) {
   if (window.__i18n) {
     return {
       [window.__i18n.locale]: {
-        [appName]: window.__i18n.resources
+        [appName]: window.__i18n.resources[appName],
+        common: window.__i18n.resources.common
       }
     };
   }
