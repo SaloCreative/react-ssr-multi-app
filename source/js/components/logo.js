@@ -66,8 +66,14 @@ class Logo extends React.Component {
     return <TagLine>Creative</TagLine>;
   }
   render() {
+    const { link } = this.props;
     return (
-      <div ref={ this.logoWrapper }>
+      <a
+        style={ { textDecoration: 'none' } }
+        href={ link.url }
+        target={ link.target }
+        ref={ this.logoWrapper }
+      >
         <LogoWrap width={ this.state.width } >
           <SVGContainer>
             <SVG
@@ -136,17 +142,22 @@ class Logo extends React.Component {
           </SVGContainer>
           { this.renderTagLine() }
         </LogoWrap>
-      </div>
+      </a>
     );
   }
 }
 
 Logo.defaultProps = {
+  link: {
+    url: '/',
+    target: ''
+  },
   showTagLine: true,
   width: 100
 };
 
 Logo.propTypes = {
+  link: PropTypes.object,
   showTagLine: PropTypes.bool,
   width: PropTypes.number
 };
