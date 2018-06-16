@@ -3,6 +3,9 @@
   "ABOUT": "About",
   "CONTACT": "Contact",
   "404": "404 Error",
+  "WHOOPS": "Whoops",
   "ERROR_TITLE": "Page not found | 404 Error",
-  "ERROR_TEXT": "Sorry we couldn't find the page you were looking for. It may not exist or has been moved."
+  "ERROR_TEXT": "Sorry we couldn't find the page you were looking for. It may not exist or has been moved.",
+  "WHOOPS_TITLE": "Whoops something went wrong!",
+  "WHOOPS_TEXT": "Sorry it looks like we had an issue handling your request."
 }

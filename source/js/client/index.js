@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Router, Route } from 'react-router-dom';
 import { LastLocationProvider } from 'react-router-last-location';
+
+// HELPERS
 import history from '../config/browserHistory';
 
 export default class Client extends React.Component {

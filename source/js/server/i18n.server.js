@@ -13,7 +13,7 @@ const createi18nServerInstance = (namespace = 'common') => {
       fallbackLng: 'en',
 
       // have a common namespace used around the full app
-      ns: [namespace],
+      ns: [namespace === 'common' ? 'common' : 'common', namespace],
       defaultNS: namespace,
 
       debug: false,
