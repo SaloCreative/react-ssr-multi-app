@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { isBrowser } from '../helpers';
 
 const LogoWrap = styled.div`
   font-size: ${ props => props.width }px;
@@ -10,6 +9,7 @@ const LogoWrap = styled.div`
   width: 100%;
   font-family: 'bebas_neuebook', Arial, Helvetica, sans-serif;
   overflow: hidden;
+  padding: ${ props => props.padding }
 `;
 
 const SVGContainer = styled.div`
@@ -66,7 +66,7 @@ class Logo extends React.Component {
     return <TagLine>Creative</TagLine>;
   }
   render() {
-    const { link } = this.props;
+    const { link, padding } = this.props;
     return (
       <a
         style={ { textDecoration: 'none' } }
@@ -74,7 +74,7 @@ class Logo extends React.Component {
         target={ link.target }
         ref={ this.logoWrapper }
       >
-        <LogoWrap width={ this.state.width } >
+        <LogoWrap width={ this.state.width } padding={ padding }>
           <SVGContainer>
             <SVG
               version='1.0'
@@ -153,13 +153,15 @@ Logo.defaultProps = {
     target: ''
   },
   showTagLine: true,
-  width: 100
+  width: 100,
+  padding: '0 0 0'
 };
 
 Logo.propTypes = {
   link: PropTypes.object,
   showTagLine: PropTypes.bool,
-  width: PropTypes.number
+  width: PropTypes.number,
+  padding: PropTypes.string
 };
 
 export default Logo;
