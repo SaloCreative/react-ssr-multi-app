@@ -1,6 +1,5 @@
-// ================= //
-// === VARIABLES=== //
-// ================= //
+// Variables
+// =================
 
 $font-family-sans-serif: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $font-family-header: 'bebas_neuebold', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -9,32 +8,3 @@ $grey-border: #eee;
 $grey-text: #aaa;
 $black: #000;
 $white: #fff;
-
-$breakpoint-sm: 500px !default;
-$breakpoint-md: 769px !default;
-$breakpoint-lg: 1025px !default;
-$breakpoint-xl: 2000px !default;
-
-@mixin sm() {
-  @media (min-width: $breakpoint-sm) {
-    @content;
-  }
-}
-
-@mixin md() {
-  @media (min-width: $breakpoint-md) {
-    @content;
-  }
-}
-
-@mixin lg() {
-  @media (min-width: $breakpoint-lg) {
-    @content;
-  }
-}
-
-@mixin xl() {
-  @media (min-width: $breakpoint-xl) {
-    @content;
-  }
-}
