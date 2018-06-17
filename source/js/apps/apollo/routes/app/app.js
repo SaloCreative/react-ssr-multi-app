@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { NavLink } from 'react-router-dom';
-import { Alerts } from '@salocreative/react-redux-alerts';
 import { translate } from 'react-i18next';
 import styled from 'styled-components';
 
@@ -74,7 +73,6 @@ class App extends React.Component {
           </NavItem>
         </Sidebar>
         <Container>
-          <Alerts alerts={ systemAlerts } />
           { renderRoutes(this.props, routesConfig) }
         </Container>
       </AppWrapper>
@@ -84,8 +82,7 @@ class App extends React.Component {
 
 App.propTypes = {
   location: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
-  systemAlerts: PropTypes.array.isRequired
+  match: PropTypes.object.isRequired
 };
 
 export default translate(['common'])(App);

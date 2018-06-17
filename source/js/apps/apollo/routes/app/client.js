@@ -1,7 +1,7 @@
 import React from 'react';
-import AppContainer from './container';
+import App from './app';
 import Client from '../../../../client';
 
 export default () => (
-  <Client AppContainer={ AppContainer } />
+  <Client AppContainer={ App } />
 );
