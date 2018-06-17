@@ -1,6 +1,11 @@
 echo 'Enter the title of your app'
 read APP
 
+echo 'apollo or redux?'
+options=("APOLLO" "REDUX")
+select TYPE in "${options[@]}"
+echo $TYPE
+
 APP_NAME=`echo ${APP:0:1} | tr  '[a-z]' '[A-Z]'`${APP:1}
 APP_DIR=./source/js/apps/$APP
 CONTROLLER_DIR=./source/js/server/controllers/$APP.js
@@ -12,12 +17,12 @@ echo 'Checking app is unique'
 if [ ! -d "$APP_DIR" ]; then
   echo '=> SUCCESS'
   echo 'Adding app folder and boilerplate'
-  cp -R ./lib/APP_NAME $APP_DIR
+  cp -R "./lib/APP_NAME_$TYPE" $APP_DIR
   ex -sc "%s/\<APP_NAME\>/$APP/g|x" $APP_DIR/config/index.js
   echo '=> SUCCESS'
 
   echo 'Adding the controller for SSR'
-  cp ./lib/controller.js $CONTROLLER_DIR
+  cp "./lib/controller_$TYPE.js" $CONTROLLER_DIR
   ex -sc "%s/\<APP_NAME\>/$APP/g|x" $CONTROLLER_DIR
   echo '=> SUCCESS'
 
