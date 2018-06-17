@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { I18nextProvider } from 'react-i18next'; // as we build ourself via webpack
-import { Provider } from 'react-redux';
+import { ApolloProvider } from 'react-apollo';
 import 'babel-polyfill';
 import 'isomorphic-fetch';
 
@@ -39,17 +39,17 @@ const renderApp = (appName, store, Client) => {
   const i18n = createi18nInstance(appName);
 
   return ReactDOM.hydrate(
-    <AppContainer warnings={ false }>
-      <I18nextProvider
-        i18n={ i18n }
-        initialI18nStore={ buildI18nStore(appName) }
-        initialLanguage={ window.__i18n ? window.__i18n.locale : '' }
-      >
-        <Provider store={ store }>
+    <ApolloProvider client={ store }>
+      <AppContainer warnings={ false }>
+        <I18nextProvider
+          i18n={ i18n }
+          initialI18nStore={ buildI18nStore(appName) }
+          initialLanguage={ window.__i18n ? window.__i18n.locale : '' }
+        >
           <Client />
-        </Provider>
-      </I18nextProvider>
-    </AppContainer>,
+        </I18nextProvider>
+      </AppContainer>
+    </ApolloProvider>,
     document.getElementById('root')
   );
 };

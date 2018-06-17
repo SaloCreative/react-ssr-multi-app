@@ -39,17 +39,17 @@ const renderApp = (appName, store, Client) => {
   const i18n = createi18nInstance(appName);
 
   return ReactDOM.hydrate(
-    <AppContainer warnings={ false }>
-      <I18nextProvider
-        i18n={ i18n }
-        initialI18nStore={ buildI18nStore(appName) }
-        initialLanguage={ window.__i18n ? window.__i18n.locale : '' }
-      >
-        <Provider store={ store }>
+    <Provider store={ store }>
+      <AppContainer warnings={ false }>
+        <I18nextProvider
+          i18n={ i18n }
+          initialI18nStore={ buildI18nStore(appName) }
+          initialLanguage={ window.__i18n ? window.__i18n.locale : '' }
+        >
           <Client />
-        </Provider>
-      </I18nextProvider>
-    </AppContainer>,
+        </I18nextProvider>
+      </AppContainer>
+    </Provider>,
     document.getElementById('root')
   );
 };
