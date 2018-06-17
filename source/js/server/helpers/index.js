@@ -2,12 +2,11 @@ import Cookies from 'universal-cookie';
 import CONFIG from '../../config';
 
 // GET USER AUTHTOKEN
-export function getToken(req) {
+export function getToken(cookies) {
   const token = {
     JWT: '',
     expire: ''
   };
-  const { cookies } = new Cookies(req.headers.cookie);
   const authToken = cookies && cookies.authToken ? cookies.authToken : {};
   if (Object.keys(authToken).length > 0) {
     token.JWT = JSON.parse(authToken).token;
