@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet';
 import { NavLink } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import styled from 'styled-components';
+import { AlertProvider, AlertConsumer } from '@salocreative/alerts';
 
 // COMPONENTS
 import { Container, Sidebar, Logo } from '../../../../components';
@@ -73,7 +74,10 @@ class App extends React.Component {
           </NavItem>
         </Sidebar>
         <Container>
-          { renderRoutes(this.props, routesConfig) }
+          <AlertProvider>
+            <AlertConsumer topOffset={ 0 } />
+            { renderRoutes(this.props, routesConfig) }
+          </AlertProvider>
         </Container>
       </AppWrapper>
     );
