@@ -79,6 +79,7 @@
   },
   "dependencies": {
     "@aftonbladet/redux-api-middleware": "^1.1.1",
+    "@salocreative/alerts": "^0.1.0",
     "@salocreative/react-redux-alerts": "^5.0.1",
     "apollo-boost": "^0.1.6",
     "apollo-cache-inmemory": "^1.2.1",
@@ -106,8 +107,8 @@
     "jss": "^9.0.0",
     "jss-preset-default": "^4.0.0",
     "moment": "^2.18.1",
-    "nodemon": "^1.12.1",
     "node-fetch": "^2.1.2",
+    "nodemon": "^1.12.1",
     "postcss-loader": "^2.0.5",
     "query-string": "^5.0.0",
     "react": "^16.2.0",
