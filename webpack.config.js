@@ -1,5 +1,6 @@
 const entryPoints = [
 'redux',
+'redux',
 ];
 
 const webpack = require('webpack');
