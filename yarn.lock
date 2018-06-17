@@ -114,9 +114,9 @@
     lodash "^4.17.5"
     to-fast-properties "^2.0.0"
 
-"@salocreative/alerts@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@salocreative/alerts/-/alerts-0.1.1.tgz#a18a8342709129c76767d140136ef1524b63dd54"
+"@salocreative/alerts@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@salocreative/alerts/-/alerts-0.2.0.tgz#10af38487cb3379a0f626035e00019193184fe4d"
   dependencies:
     rc-tree "^1.8.0"
     styled-components "^3.2.4"

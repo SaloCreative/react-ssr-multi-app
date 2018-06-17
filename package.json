@@ -79,7 +79,7 @@
   },
   "dependencies": {
     "@aftonbladet/redux-api-middleware": "^1.1.1",
-    "@salocreative/alerts": "^0.1.1",
+    "@salocreative/alerts": "^0.2.0",
     "@salocreative/react-redux-alerts": "^5.0.1",
     "apollo-boost": "^0.1.6",
     "apollo-cache-inmemory": "^1.2.1",
