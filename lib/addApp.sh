@@ -3,8 +3,14 @@ read APP
 
 echo 'apollo or redux?'
 options=("APOLLO" "REDUX")
-select TYPE in "${options[@]}"
+select TYPE in "${options[@]}" "Quit";
 do
+  case "$REPLY" in
+    1) echo "you chose choice $TYPE";;
+    2) echo "you chose choice $TYPE";;
+    $(( ${#options[@]}+1 )) ) echo "Goodbye!"; break;;
+    *) echo "Invalid option. Try another one.";continue;;
+  esac
   APP_NAME=`echo ${APP:0:1} | tr  '[a-z]' '[A-Z]'`${APP:1}
   APP_DIR=./source/js/apps/$APP
   CONTROLLER_DIR=./source/js/server/controllers/$APP.js
@@ -35,10 +41,11 @@ do
     ex -sc "2i|"\'$APP\'"," -cx ./webpack.config.js
     touch ./source/locales/en/$APP.json
 
-    echo '=> DONE! Cleaning up & starting universal dev'
-    npm run universal:dev
+    echo '=> DONE! Cleaning up'
+    break;
 
   else
     echo 'ERROR: Sorry that app appears to exist already'
+    break;
   fi
 done
