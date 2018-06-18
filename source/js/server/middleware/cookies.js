@@ -1,22 +1,22 @@
 import Cookies from 'universal-cookie';
 
-import { getToken } from '../helpers';
-import { tokenFullyExpired } from '../../helpers';
+import { getTokensServer, tokenFullyExpired } from '../../helpers/auth';
 
 // ==================== //
 // DECODE USERS COOKIES //
 // ==================== //
 export const handleCookies = (req, res, next) => {
 // GET REQUEST COOKIES
-  const cookies = new Cookies(req.headers.cookie);
+  const { cookies } = new Cookies(req.headers.cookie);
 
   // GET JWT TOKEN & USER TOKEN
-  let jwtToken = getToken(cookies);
+  let tokens = getTokensServer(cookies);
 
   // GET RID OF EXPIRED TOKENS
-  if (jwtToken && jwtToken.expire && tokenFullyExpired(jwtToken.expire)) {
+  if (tokens && tokens.jwt.ts && tokenFullyExpired(tokens.jwt.ts)) {
     res.clearCookie('jwt');
-    jwtToken = {}; // Blank values used later
+    res.clearCookie('user');
+    tokens = {}; // Blank values used later
   }
 
   // CHECK IF TOKEN NEEDS REFRESHING
@@ -26,6 +26,6 @@ export const handleCookies = (req, res, next) => {
   // }
 
   // SET TO req so we can access in the app
-  req.jwtToken = jwtToken;
+  req.tokens = tokens;
   next();
 };

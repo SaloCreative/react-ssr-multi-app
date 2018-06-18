@@ -12,12 +12,13 @@ import fetch from 'node-fetch';
 // COMPONENTS
 import getServerHtml from './serverHTML';
 import Server from './server';
+import AuthProvider from '../components/auth/context/provider';
 
 // HELPERS
 import createi18nServerInstance from './i18n.server'; // initialised i18next instances
 
 export default ({
-  res, App, locale, url, appName
+  res, App, locale, url, appName, tokens
 }) => {
   // CREATE i18next INSTANCE
   const i18n = createi18nServerInstance(appName);
@@ -47,11 +48,13 @@ export default ({
     const sheet = new ServerStyleSheet();
     const AppHtml = (
       <ApolloProvider client={ client }>
-        <I18nextProvider i18n={ i18nServer }>
-          <StyleSheetManager sheet={ sheet.instance }>
-            <Server location={ url } context={ context } AppContainer={ App } />
-          </StyleSheetManager>
-        </I18nextProvider>
+        <AuthProvider tokens={ tokens }>
+          <I18nextProvider i18n={ i18nServer }>
+            <StyleSheetManager sheet={ sheet.instance }>
+              <Server location={ url } context={ context } AppContainer={ App } />
+            </StyleSheetManager>
+          </I18nextProvider>
+        </AuthProvider>
       </ApolloProvider>
     );
 

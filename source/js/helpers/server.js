@@ -1,19 +1,4 @@
-import Cookies from 'universal-cookie';
-import CONFIG from '../../config';
-
-// GET USER AUTHTOKEN
-export function getToken(cookies) {
-  const token = {
-    JWT: '',
-    expire: ''
-  };
-  const authToken = cookies && cookies.authToken ? cookies.authToken : {};
-  if (Object.keys(authToken).length > 0) {
-    token.JWT = JSON.parse(authToken).token;
-    token.expire = JSON.parse(authToken).token_start;
-  }
-  return token;
-}
+import CONFIG from '../config';
 
 // CHECK LOCALE & PARAMS
 export const getLocaleParams = (lang, branch) => {
