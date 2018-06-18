@@ -12,7 +12,7 @@ import fetch from 'node-fetch';
 // COMPONENTS
 import getServerHtml from './serverHTML';
 import Server from './server';
-import AuthProvider from '../components/auth/context/provider';
+import { AuthProvider } from '../auth';
 
 // HELPERS
 import createi18nServerInstance from './i18n.server'; // initialised i18next instances
