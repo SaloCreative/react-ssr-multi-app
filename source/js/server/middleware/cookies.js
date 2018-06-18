@@ -1,6 +1,6 @@
 import Cookies from 'universal-cookie';
 
-import { getTokensServer, tokenFullyExpired } from '../../helpers/auth';
+import { getTokensServer, tokenFullyExpired } from '../../auth';
 
 // ==================== //
 // DECODE USERS COOKIES //

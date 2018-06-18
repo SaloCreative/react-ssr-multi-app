@@ -8,12 +8,11 @@ import 'babel-polyfill';
 import 'isomorphic-fetch';
 
 // COMPONENTS
-import AuthProvider from '../components/auth/context/provider';
+import { AuthProvider, getTokensClient } from '../auth';
 
 // HELPERS
 import createi18nInstance from '../i18n'; // initialised i18next instances
 import { ENV, buildI18nStore } from '../helpers';
-import { getTokensClient } from '../helpers/auth';
 
 // Load SCSS
 import '../../scss/app.scss';
