@@ -37,7 +37,7 @@ export default ({
     const client = new ApolloClient({
       ssrMode: true,
       link: createHttpLink({
-        uri: 'http://localhost:3030/graphql',
+        uri: 'http://localhost:7000/graphql',
         fetch
       }),
       cache: new InMemoryCache()
