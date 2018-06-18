@@ -8,6 +8,7 @@ import { Consumer as AlertsConsumer } from '@salocreative/alerts';
 // COMPONENTS
 import Page from '../../containers/hoc/page';
 import { H1, H2, Button } from '../../../../components';
+import { Consumer as AuthConsumer } from '../../../../components/auth/context';
 
 // QUERIES
 import GET_POST from '../../queries/demo/getPost';
@@ -89,6 +90,24 @@ class Home extends React.Component {
               );
             } }
           </AlertsConsumer>
+          <AuthConsumer>
+            { ({ login, logout }) => {
+            return (
+              <React.Fragment>
+                <Button
+                  onClick={ () => login() }
+                  fullWidth
+                >Login
+                </Button>
+                <Button
+                  onClick={ () => logout() }
+                  fullWidth
+                >Logout
+                </Button>
+              </React.Fragment>
+            );
+          } }
+          </AuthConsumer>
           { this.renderContent() }
           { this.renderUsers() }
         </div>

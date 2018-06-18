@@ -2,7 +2,7 @@ import { matchRoutes } from 'react-router-config';
 import 'babel-polyfill';
 
 // Server functions
-import { getToken, getLocaleParams, initialPropsFetch } from '../helpers';
+import { getLocaleParams, initialPropsFetch } from '../../helpers/server';
 import RenderRedux from '../renderRedux';
 
 // ============================== //
