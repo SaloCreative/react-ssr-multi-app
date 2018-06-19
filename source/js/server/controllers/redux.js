@@ -38,7 +38,7 @@ const showApp = (req, res) => {
 
   // RENDER FUNCTION
   return RenderRedux({
-    res, AppContainer, promises, locale, store, url: req.url, appName: 'redux'
+    res, AppContainer, promises, locale, store, url: req.url, appName: 'redux', tokens: req.tokens
   });
 };
 
