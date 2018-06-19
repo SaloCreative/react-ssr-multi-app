@@ -5,11 +5,14 @@ import { Provider } from 'react-redux';
 import Helmet from 'react-helmet';
 import { I18nextProvider } from 'react-i18next';
 import createi18nServerInstance from './i18n.server'; // initialised i18next instances
+
+// COMPONENTS
 import getServerHtml from './serverHTML';
 import Server from './server';
+import { AuthProvider } from '../auth';
 
 export default ({
-  res, AppContainer, promises, locale, store, url, appName
+  res, AppContainer, promises, locale, store, url, appName, tokens
 }) => {
   // CREATE i18next INSTANCE
   const i18n = createi18nServerInstance(appName);
@@ -30,11 +33,13 @@ export default ({
     const sheet = new ServerStyleSheet();
     const AppHtml = (
       <Provider store={ store }>
-        <I18nextProvider i18n={ i18nServer }>
-          <StyleSheetManager sheet={ sheet.instance }>
-            <Server location={ url } context={ context } AppContainer={ AppContainer } />
-          </StyleSheetManager>
-        </I18nextProvider>
+        <AuthProvider tokens={ tokens }>
+          <I18nextProvider i18n={ i18nServer }>
+            <StyleSheetManager sheet={ sheet.instance }>
+              <Server location={ url } context={ context } AppContainer={ AppContainer } />
+            </StyleSheetManager>
+          </I18nextProvider>
+        </AuthProvider>
       </Provider>
     );
 

@@ -2,7 +2,7 @@ import { matchRoutes } from 'react-router-config';
 import 'babel-polyfill';
 
 // Server functions
-import { getToken, getLocaleParams, initialPropsFetch } from '../helpers';
+import { getLocaleParams, initialPropsFetch } from '../../helpers/server';
 import RenderRedux from '../renderRedux';
 
 // ============================== //
@@ -38,7 +38,7 @@ const showApp = (req, res) => {
 
   // RENDER FUNCTION
   return RenderRedux({
-    res, AppContainer, promises, locale, store, url: req.url, appName: 'redux'
+    res, AppContainer, promises, locale, store, url: req.url, appName: 'redux', tokens: req.tokens
   });
 };
 
