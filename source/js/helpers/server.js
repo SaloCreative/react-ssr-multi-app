@@ -17,13 +17,13 @@ export const getLocaleParams = (lang, branch) => {
 
 // CHECK FOR INITIAL PROPS FETCH
 export const initialPropsFetch = ({
-  branch, store, token, matchParams
+  branch, store, tokens, matchParams
 }) => {
   return branch.map(({ route }) => {
     if (route.component && route.component.getInitialProps && route.path !== '*') {
       const { getInitialProps } = route.component;
       if (getInitialProps instanceof Function && matchParams) {
-        return getInitialProps(store, matchParams, token);
+        return getInitialProps(store, matchParams, tokens);
       }
     }
     return Promise.resolve(null);

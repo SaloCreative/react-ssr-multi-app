@@ -33,7 +33,7 @@ const showApp = (req, res) => {
 
   // CHECK FOR INITIAL PROPS FETCH
   const promises = initialPropsFetch({
-    branch, store, token: req.jwtToken, matchParams
+    branch, store, tokens: req.tokens, matchParams
   });
 
   // RENDER FUNCTION
