@@ -3,9 +3,14 @@ import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { I18nextProvider } from 'react-i18next'; // as we build ourself via webpack
 import { ApolloProvider } from 'react-apollo';
+import Cookies from 'universal-cookie';
 import 'babel-polyfill';
 import 'isomorphic-fetch';
 
+// COMPONENTS
+import { AuthProvider, getTokensClient } from '../auth';
+
+// HELPERS
 import createi18nInstance from '../i18n'; // initialised i18next instances
 import { ENV, buildI18nStore } from '../helpers';
 
@@ -38,17 +43,22 @@ const renderApp = (appName, store, Client) => {
   // Create i18n instance
   const i18n = createi18nInstance(appName);
 
+  const cookies = new Cookies();
+  const tokens = getTokensClient(cookies);
+
   return ReactDOM.hydrate(
     <ApolloProvider client={ store }>
-      <AppContainer warnings={ false }>
-        <I18nextProvider
-          i18n={ i18n }
-          initialI18nStore={ buildI18nStore(appName) }
-          initialLanguage={ window.__i18n ? window.__i18n.locale : '' }
-        >
-          <Client />
-        </I18nextProvider>
-      </AppContainer>
+      <AuthProvider tokens={ tokens }>
+        <AppContainer warnings={ false }>
+          <I18nextProvider
+            i18n={ i18n }
+            initialI18nStore={ buildI18nStore(appName) }
+            initialLanguage={ window.__i18n ? window.__i18n.locale : '' }
+          >
+            <Client />
+          </I18nextProvider>
+        </AppContainer>
+      </AuthProvider>
     </ApolloProvider>,
     document.getElementById('root')
   );

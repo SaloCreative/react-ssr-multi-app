@@ -31,10 +31,3 @@ export function ssrSafeRedirect(url) {
 
 // GET NODE ENV
 export const ENV = process.env.NODE_ENV;
-
-// TOKEN FULLY EXPIRED
-export function tokenFullyExpired(expiry, time = 172800) {
-  if (!expiry) return false;
-  const timeDiff = Math.round((Date.now() - expiry) / 1000);
-  return timeDiff >= time;
-}
