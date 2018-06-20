@@ -6,9 +6,15 @@
 	* [Development](#development) 
 	* [Build](#build)
 	* [npm tasks](#all-npm-tasks)
+* [Auth](#auth)
+	* [Tokens](#tokens)
+	* [Auth Context](#auth-context)
+	* [AuthWrapper](#authwrapper) 
 * [Server side fetching](#server-side-fetching)
-	* [getInitialProps()](#getinitialprops)
-	* [componentDidMount()](#componentdidmount)
+	* [APOLLO](#apollo)
+	* [REDUX](#redux) 
+		* [getInitialProps()](#getinitialprops)
+		* [componentDidMount()](#componentdidmount)
 * [Credit](#credit)
 	* [Contributors](#contributors)
 * [License](#license)
@@ -24,6 +30,8 @@ This application is based on the react-redux-stater built previously. The idea o
 - allow simple sharing of render methods and centralised config
 - implement a full node/express router to allow additional services to be run within the application. In theory you could serve a simple node website with React portals available on additional routes e.g. a CMS with front end where the two can be built in the most appropriate way
 
+There are two boilerplates included, one for using redux and the other for using apollo. These are basic examples but should give you the starting point for a universally rendered application with either of these libraries.
+
 ### The react goodness
 
 A simple **S**ingle **P**age **A**pplication (SPA) relies on fetching and rendering all the data on the client side. For some applications this is fine, especially hobby projects, but for any application that needs to be accessible, shareable or SEO friendly then we need to be able to pre-fetch data on the server side and render a fully formed view without loading the app first. 
@@ -33,6 +41,7 @@ Having worked on a number of React-Redux apps recently that require localisation
 The main features are: 
 
 * React-Redux based application
+* React-Apollo based application
 * reducers (redux)
 * actions (async)
 * SASS (with autoprefixer)
@@ -123,12 +132,49 @@ Currently this will run the application. in production mode on port 8080
 * `server:dev` - starts server app only in development mode (use for testing server responses)
 * `universal:dev` - runs both server and client in watch mode, automatically restarts server on changes
 * `universal:build` - builds both server and client for `production` environment
+* `add:app` - adds a new application to node along with routes and controller
 
 there are additional tasks that are run as part of build and dev tasks but these should not be run in isolation. There are also 2 aliases currently in place for legacy build tasks
 
+# Auth
+
+At the moment the auth is encapsulated in a provider context wrapping the entire application which is hydrated via cookies in both the server and client builds. At the moment the login/logout buttons on the home route simply set and remove two dummy cookies for example purposes.
+
+## Tokens
+
+The example in this app uses two auth cookies, one called `user` which has some basic user info in it and another called `jwt` which contains a dummy JWT. You can replace either of these as you see fit but make sure to update the helpers and controller functions where the cookies are referenced as well as the context itself in the `auth` folder. References to the cookies are in: -
+
+* `auth/wrapper/index`
+* `auth/helpers/tokens`
+* `auth/context/index`
+* `auth/context/provider`
+* `server/middleware/cookies`
+
+## Auth Context
+
+To document still
+
+## AuthWrapper
+
+The AuthWrapper is a simple component that can be used in the app to show or hide content based on whether a user is logged in or not. It currently only takes one prop which is a bool for `isLoggedIn`. When this is set to false it will only render its children if there is no logged in user. By default it is true and will only render its children if there is a logged in user.
+
+You could easily extend the component to check permissions so can also be useful for hiding content or functionality based on user roles. It is also a good starting point for enabling auth routes.
+
+```javascript
+<AuthWrapper isLoggedIn={ false }>
+	// ... my components
+</AuthWrapper>
+```
+
 # Server side fetching
 
-## getInitialProps()
+## APOLLO
+
+This is configured and will work out of the box with any of the Query components in your app.
+
+## REDUX
+
+### getInitialProps()
 
 In order to perform the server side fetches I have stolen the approach utilised by next.js. Available in the top level route components (home, 404 etc) you can call `getInitialProps` as a static method. This method is picked up in the express application and passes down some context to enable fetches to be made and update the redux store on the server side pre-render.
 
@@ -152,7 +198,7 @@ In the `getInitialProps` method the express app will pass in an instance of the 
 
 You will notice that the getInitialProps returns an array of promises which is important to ensure that the render is held until all required async actions are resolved before the html is returned to the client. Without this promise the dispatches will be made but the view rendered before they resolve
 
-## componentDidMount()
+### componentDidMount()
 
 As you change routes the subsequent requests are made on the client side so you need to make sure that any data that should be fetched in `getInitialProps` is validated in `componentDidMount` (componentWillMount runs on the server so no use in this instance) as well to ensure the application works in all instances e.g.
 
@@ -198,14 +244,11 @@ The client and server configuration is separated as the files are loaded in diff
 
 - [x] Document internationalisation
 - [ ] Add a language switcher
-- [ ] Fix menu links for `de` site
-- [ ] Add example of language fetches
-- [ ] Add an about route
 - [ ] Implement an error boundary
 - [x] Implement `@salocreative/react-redux-alerts example`
 - [ ] Implement Loading wrapper
-- [ ] Document actions approach
-- [ ] Flesh out auth example
+- [x] Document actions approach
+- [x] Flesh out auth example
 - [ ] Upgrade `react-redux-middleware`
 
 
