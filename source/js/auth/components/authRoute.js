@@ -24,13 +24,12 @@ class AuthRoute extends React.Component {
   }
   render() {
     const {
-      component: ComposedComponent, path, pageTitle, componentProps, exact, ignoreScrollBehavior
+      component: ComposedComponent, path, title, componentProps, exact, ignoreScrollBehavior
     } = this.props;
     return (
       <AuthConsumer>
         { ({ loggedIn, hasPermissions }) => {
-          const isLoggedIn = loggedIn();
-          const canAccess = this.evaluateCanAccess(isLoggedIn, hasPermissions);
+          const canAccess = this.evaluateCanAccess(loggedIn, hasPermissions);
           console.log(canAccess);
           return (
             <Route
@@ -39,7 +38,7 @@ class AuthRoute extends React.Component {
               ignoreScrollBehavior={ ignoreScrollBehavior }
               render={ (props) =>
                 (<ComposedComponent
-                  pageTitle={ pageTitle }
+                  pageTitle={ title }
                   { ...componentProps }
                   match={ props.match } // Makes sure context of THIS route is passed in
                 />) }
@@ -63,7 +62,7 @@ AuthRoute.defaultProps = {
 AuthRoute.propTypes = {
   component: PropTypes.func.isRequired,
   path: PropTypes.string.isRequired,
-  pageTitle: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   componentProps: PropTypes.object.isRequired,
   authenticated: PropTypes.bool,
   notAuthenticated: PropTypes.bool,

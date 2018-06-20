@@ -12,7 +12,7 @@ import { Container, Sidebar, Logo } from '../../../../components';
 // HELPERS
 import renderRoutes from '../../../../components/app/renderRoutes';
 import routesConfig from '../index';
-import { HOME, WHOOPS } from '../../config/pages';
+import { HOME, WHOOPS, AUTHENTICATED_ROUTE } from '../../config/pages';
 
 const AppWrapper = styled.div`
   font-size: 1.8rem;
@@ -37,7 +37,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { match, systemAlerts, t } = this.props;
+    const { match, t } = this.props;
     const language = match.params.language ? match.params.language : 'en';
     return (
       <AppWrapper>
@@ -54,7 +54,15 @@ class App extends React.Component {
             className='header-font'
             to={ HOME.path.replace(':language', language) }
           >
-            { t('HOME') }
+            { t(HOME.title) }
+          </NavItem>
+          <NavItem
+            activeClassName='active'
+            exact
+            className='header-font'
+            to={ AUTHENTICATED_ROUTE.path.replace(':language', language) }
+          >
+            { t(AUTHENTICATED_ROUTE.title) }
           </NavItem>
           <NavItem
             activeClassName='active'
@@ -62,7 +70,7 @@ class App extends React.Component {
             className='header-font'
             to={ WHOOPS.path.replace(':language', language) }
           >
-            { t('WHOOPS') }
+            { t(WHOOPS.title) }
           </NavItem>
           <NavItem
             activeClassName='active'
@@ -86,7 +94,8 @@ class App extends React.Component {
 
 App.propTypes = {
   location: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired
+  match: PropTypes.object.isRequired,
+  t: PropTypes.object.isRequired
 };
 
 export default translate(['common'])(App);
