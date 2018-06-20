@@ -5,7 +5,8 @@ const { Provider, Consumer } = createContext({
   jwt: {},
   login: () => {},
   logout: () => {},
-  loggedIn: () => false
+  loggedIn: () => false,
+  hasPermissions: () => false
 });
 
 export { Provider, Consumer };

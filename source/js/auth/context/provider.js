@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { map, union, isEmpty } from 'lodash';
+import { isEmpty, intersection } from 'lodash';
 import Cookies from 'universal-cookie';
 
 // COMPONENTS
@@ -31,9 +31,20 @@ export default class AuthProvider extends React.Component {
       cookies.set('jwt', JSON.stringify(jwt), { path: '/', domain: cookieDomain });
       cookies.set('user', JSON.stringify(user), { path: '/', domain: cookieDomain });
     };
-    this.loggedIn = (jwt) => {
-      console.log(this.state);
+    this.loggedIn = () => {
       return !isEmpty(this.state.jwt);
+    };
+    this.hasPermissions = (permissions) => {
+      // First check the user is logged in
+      if (!isEmpty(this.state.jwt)) {
+        if (permissions && permissions.length) {
+          const userPermissions = this.state.jwt.roles || [];
+          const match = intersection(userPermissions, permissions);
+          return match && !!match.length;
+        }
+        return true;
+      }
+      return false;
     };
     this.logout = () => {
       this.setState({ user: {}, jwt: {}, loggedOut: true });
@@ -43,10 +54,11 @@ export default class AuthProvider extends React.Component {
     this.state = {
       user: {},
       jwt: {},
+      loggedOut: false,
       login: this.login,
       logout: this.logout,
       loggedIn: this.loggedIn,
-      loggedOut: false
+      hasPermissions: this.hasPermissions
     };
   }
 
@@ -64,7 +76,8 @@ export default class AuthProvider extends React.Component {
       };
       const jwtObj = {
         token: tokens.jwt.t,
-        token_start: tokens.jwt.ts
+        token_start: tokens.jwt.ts,
+        roles: tokens.user.r
       };
       return {
         user: userObj,
@@ -77,12 +90,12 @@ export default class AuthProvider extends React.Component {
   render() {
     const { children } = this.props;
     const {
-      user, jwt, login, logout, loggedIn
+      user, jwt, login, logout, loggedIn, hasPermissions
     } = this.state;
     return (
       <Provider
         value={ {
-          user, jwt, login, logout, loggedIn
+          user, jwt, login, logout, loggedIn, hasPermissions
           } }
       >
         { children }

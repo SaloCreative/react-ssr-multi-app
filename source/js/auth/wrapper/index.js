@@ -9,7 +9,7 @@ class AuthWrapper extends React.Component {
     const { children, authenticated } = this.props;
     return (
       <AuthConsumer>
-        { ({ loggedIn }) => {
+        { ({ loggedIn, hasPermissions }) => {
           const isLoggedIn = loggedIn();
           if ((isLoggedIn && authenticated) || (!isLoggedIn && !authenticated)) {
             return (
@@ -26,11 +26,13 @@ class AuthWrapper extends React.Component {
 }
 
 AuthWrapper.defaultProps = {
-  authenticated: true
+  authenticated: true,
+  permissions: []
 };
 
 AuthWrapper.propTypes = {
   children: PropTypes.any.isRequired,
+  permissions: PropTypes.any.isRequired,
   authenticated: PropTypes.bool
 };
 
