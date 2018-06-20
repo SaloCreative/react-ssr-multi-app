@@ -1,12 +1,10 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import { isBrowser } from '../../helpers';
 
 export default class ExternalRedirect extends Component {
-  componentDidMount() {
-    if (isBrowser) {
-      window.location = this.props.url;
-    }
+  constructor(props) {
+    super(props);
+    window.location = props.url;
   }
 
   render() {

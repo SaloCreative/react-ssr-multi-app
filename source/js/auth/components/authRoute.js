@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Redirect, Route } from 'react-router-dom';
 
 // COMPONENTS
-import { Consumer as AuthConsumer } from '../../auth';
+import { Consumer as AuthConsumer } from '../context';
 import ExternalRedirect from './externalRedirect';
 
 // HELPERS
@@ -33,9 +33,9 @@ class AuthRoute extends React.Component {
     return redirect;
   }
 
-  renderRedirect() {
+  renderRedirect(isLoggedIn) {
     const { path, exact, ignoreScrollBehavior } = this.props;
-    const redirect = this.evaluateRedirect();
+    const redirect = this.evaluateRedirect(isLoggedIn);
     return (
       <Route
         exact={ exact }
@@ -45,7 +45,7 @@ class AuthRoute extends React.Component {
           if (redirect.includes('http')) {
             return <ExternalRedirect url={ redirect } />;
           }
-          return <Redirect to={ this.evaluateRedirect() } />;
+          return <Redirect to={ this.evaluateRedirect(isLoggedIn) } />;
         } }
       />
     );
@@ -75,7 +75,7 @@ class AuthRoute extends React.Component {
               />
             );
           } else if (isBrowser) {
-            return this.renderRedirect(loggedIn);
+            return this.renderRedirect(isLoggedIn);
           }
           return null;
       } }
