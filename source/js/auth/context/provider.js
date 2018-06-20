@@ -31,6 +31,10 @@ export default class AuthProvider extends React.Component {
       cookies.set('jwt', JSON.stringify(jwt), { path: '/', domain: cookieDomain });
       cookies.set('user', JSON.stringify(user), { path: '/', domain: cookieDomain });
     };
+    this.loggedIn = (jwt) => {
+      console.log(this.state);
+      return !isEmpty(this.state.jwt);
+    };
     this.logout = () => {
       this.setState({ user: {}, jwt: {}, loggedOut: true });
       cookies.remove('jwt', { path: '/', domain: cookieDomain });
@@ -41,6 +45,7 @@ export default class AuthProvider extends React.Component {
       jwt: {},
       login: this.login,
       logout: this.logout,
+      loggedIn: this.loggedIn,
       loggedOut: false
     };
   }
@@ -72,12 +77,12 @@ export default class AuthProvider extends React.Component {
   render() {
     const { children } = this.props;
     const {
-      user, jwt, login, logout
+      user, jwt, login, logout, loggedIn
     } = this.state;
     return (
       <Provider
         value={ {
-          user, jwt, login, logout
+          user, jwt, login, logout, loggedIn
           } }
       >
         { children }
