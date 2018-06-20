@@ -6,6 +6,9 @@ import Cookies from 'universal-cookie';
 // COMPONENTS
 import { Provider } from './index';
 
+// HELPERS
+import { mapCookieToState } from '../helpers/tokens';
+
 const cookies = new Cookies();
 const cookieDomain = 'localhost';
 
@@ -15,7 +18,7 @@ export default class AuthProvider extends React.Component {
     this.login = () => {
       const jwt = {
         i: 3,
-        lg: 'en',
+        lng: 'en',
         t: 'jwt.token.io',
         ts: Date.now()
       };
@@ -27,7 +30,8 @@ export default class AuthProvider extends React.Component {
         },
         r: [1, 2, 3, 4, 5]
       };
-      this.setState({ user, jwt, loggedOut: false });
+      const stateData = mapCookieToState({ jwt, user });
+      this.setState({ user: stateData.user, jwt: stateData.jwt, loggedOut: false });
       cookies.set('jwt', JSON.stringify(jwt), { path: '/', domain: cookieDomain });
       cookies.set('user', JSON.stringify(user), { path: '/', domain: cookieDomain });
     };
@@ -67,21 +71,10 @@ export default class AuthProvider extends React.Component {
     const { user, jwt, loggedOut } = prevState;
     const { tokens } = nextProps;
     if ((isEmpty(user) || isEmpty(jwt)) && tokens && !loggedOut) {
-      const userObj = {
-        id: tokens.jwt.i,
-        firstName: tokens.user.u.fn,
-        lastName: tokens.user.u.ln,
-        avatar: tokens.user.u.av,
-        language: tokens.jwt.lg
-      };
-      const jwtObj = {
-        token: tokens.jwt.t,
-        token_start: tokens.jwt.ts,
-        roles: tokens.user.r
-      };
+      const stateData = mapCookieToState({ jwt: tokens.jwt, user: tokens.user });
       return {
-        user: userObj,
-        jwt: jwtObj
+        user: stateData.user,
+        jwt: stateData.jwt
       };
     }
     return null;
