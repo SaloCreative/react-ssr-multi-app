@@ -156,12 +156,12 @@ To document still
 
 ## AuthWrapper
 
-The AuthWrapper is a simple component that can be used in the app to show or hide content based on whether a user is logged in or not. It currently only takes one prop which is a bool for `isLoggedIn`. When this is set to false it will only render its children if there is no logged in user. By default it is true and will only render its children if there is a logged in user.
+The AuthWrapper is a simple component that can be used in the app to show or hide content based on whether a user is logged in or not. It currently only takes one prop which is a bool for `authenticated`. When this is set to false it will only render its children if there is no logged in user. By default it is true and will only render its children if there is a logged in user.
 
 You could easily extend the component to check permissions so can also be useful for hiding content or functionality based on user roles. It is also a good starting point for enabling auth routes.
 
 ```javascript
-<AuthWrapper isLoggedIn={ false }>
+<AuthWrapper authenticated={ false }>
 	// ... my components
 </AuthWrapper>
 ```

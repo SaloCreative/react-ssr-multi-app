@@ -94,7 +94,7 @@ class Home extends React.Component {
             { ({ login, logout }) => {
             return (
               <React.Fragment>
-                <AuthWrapper isLoggedIn={ false }>
+                <AuthWrapper authenticated={ false }>
                   <Button
                     onClick={ () => login() }
                     fullWidth
@@ -112,8 +112,8 @@ class Home extends React.Component {
             );
           } }
           </AuthConsumer>
-          { this.renderContent() }
-          { this.renderUsers() }
+          { /* { this.renderContent() }
+        { this.renderUsers() } */ }
         </div>
       </React.Fragment>
     );

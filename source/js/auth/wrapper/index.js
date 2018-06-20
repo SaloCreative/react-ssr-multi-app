@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty } from 'lodash';
 
 // COMPONENT
 import { Consumer as AuthConsumer } from '../context';
 
 class AuthWrapper extends React.Component {
   render() {
-    const { children, isLoggedIn } = this.props;
+    const { children, authenticated } = this.props;
     return (
       <AuthConsumer>
-        { ({ jwt }) => {
-          if ((!isEmpty(jwt) && isLoggedIn) || (isEmpty(jwt) && !isLoggedIn)) {
+        { ({ loggedIn }) => {
+          const isLoggedIn = loggedIn();
+          if ((isLoggedIn && authenticated) || (!isLoggedIn && !authenticated)) {
             return (
               <React.Fragment>
                 { children }
@@ -26,12 +26,12 @@ class AuthWrapper extends React.Component {
 }
 
 AuthWrapper.defaultProps = {
-  isLoggedIn: true
+  authenticated: true
 };
 
 AuthWrapper.propTypes = {
   children: PropTypes.any.isRequired,
-  isLoggedIn: PropTypes.bool
+  authenticated: PropTypes.bool
 };
 
 export default AuthWrapper;
