@@ -144,7 +144,6 @@ At the moment the auth is encapsulated in a provider context wrapping the entire
 
 The example in this app uses two auth cookies, one called `user` which has some basic user info in it and another called `jwt` which contains a dummy JWT. You can replace either of these as you see fit but make sure to update the helpers and controller functions where the cookies are referenced as well as the context itself in the `auth` folder. References to the cookies are in: -
 
-* `auth/wrapper/index`
 * `auth/helpers/tokens`
 * `auth/context/index`
 * `auth/context/provider`
