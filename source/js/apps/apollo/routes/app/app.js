@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import { NavLink } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import styled from 'styled-components';
 import { AlertProvider, AlertConsumer } from '@salocreative/alerts';
 
 // COMPONENTS
-import { Container, Sidebar, Logo } from '../../../../components';
+import { Container } from '../../../../components';
+import Menu from '../../../../components/app/menu';
 
 // HELPERS
 import renderRoutes from '../../../../components/app/renderRoutes';
@@ -19,15 +19,6 @@ const AppWrapper = styled.div`
   padding: 0 0 0 24rem;
 `;
 
-const NavItem = styled(NavLink)`
-  text-decoration: none;
-  display: block;
-  padding: 10px 0;
-  &.active {
-    color: #000
-  }
-`;
-
 class App extends React.Component {
   componentDidUpdate(prevProps) {
     const { location } = this.props;
@@ -37,50 +28,19 @@ class App extends React.Component {
   }
 
   render() {
-    const { match, t } = this.props;
+    const { match } = this.props;
     const language = match.params.language ? match.params.language : 'en';
     return (
       <AppWrapper>
         <Helmet titleTemplate='%s | Salo Creative' />
-        <Sidebar width={ 240 } padding='4rem'>
-          <Logo
-            width={ 140 }
-            padding='0 0 20px'
-            link={ { url: HOME.path.replace(':language', language), target: '_self' } }
-          />
-          <NavItem
-            activeClassName='active'
-            exact
-            className='header-font'
-            to={ HOME.path.replace(':language', language) }
-          >
-            { t(HOME.title) }
-          </NavItem>
-          <NavItem
-            activeClassName='active'
-            exact
-            className='header-font'
-            to={ AUTHENTICATED_ROUTE.path.replace(':language', language) }
-          >
-            { t(AUTHENTICATED_ROUTE.title) }
-          </NavItem>
-          <NavItem
-            activeClassName='active'
-            exact
-            className='header-font'
-            to={ WHOOPS.path.replace(':language', language) }
-          >
-            { t(WHOOPS.title) }
-          </NavItem>
-          <NavItem
-            activeClassName='active'
-            exact
-            className='header-font'
-            to={ `${ HOME.path.replace(':language', language) }/404` }
-          >
-            { t('404') }
-          </NavItem>
-        </Sidebar>
+        <Menu
+          routes={ {
+              HOME,
+              AUTHENTICATED_ROUTE,
+              WHOOPS
+            } }
+          language={ language }
+        />
         <Container>
           <AlertProvider>
             <AlertConsumer topOffset={ 0 } />
@@ -94,8 +54,7 @@ class App extends React.Component {
 
 App.propTypes = {
   location: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
-  t: PropTypes.func.isRequired
+  match: PropTypes.object.isRequired
 };
 
 export default translate(['common'])(App);
