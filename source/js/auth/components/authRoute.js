@@ -4,12 +4,12 @@ import { Redirect, Route } from 'react-router-dom';
 
 // COMPONENTS
 import { Consumer as AuthConsumer } from '../../auth';
+import ExternalRedirect from './externalRedirect';
 
 // HELPERS
 
 class AuthRoute extends React.Component {
-  evaluateCanAccess(loggedIn, hasPermissions) {
-    const isLoggedIn = loggedIn();
+  evaluateCanAccess(isLoggedIn, hasPermissions) {
     const { notAuthenticated, authenticated, permissions } = this.props;
     // .Deal with public routes or routes requiring users to not be logged in first
     if ((notAuthenticated && !isLoggedIn) || (!notAuthenticated && !authenticated)) {
@@ -22,6 +22,34 @@ class AuthRoute extends React.Component {
     }
     return true;
   }
+
+  evaluateRedirect(isLoggedIn) {
+    const { authenticated, redirect } = this.props;
+    if (authenticated && !isLoggedIn) {
+      // If require logged in user and not logged in load login component
+      return '/login';
+    }
+    return redirect;
+  }
+
+  renderRedirect() {
+    const { path, exact, ignoreScrollBehavior } = this.props;
+    const redirect = this.evaluateRedirect();
+    return (
+      <Route
+        exact={ exact }
+        path={ path }
+        ignoreScrollBehavior={ ignoreScrollBehavior }
+        render={ () => {
+          if (redirect.includes('http')) {
+            return <ExternalRedirect url={ redirect } />;
+          }
+          return <Redirect to={ this.evaluateRedirect() } />;
+        } }
+      />
+    );
+  }
+
   render() {
     const {
       component: ComposedComponent, path, title, componentProps, exact, ignoreScrollBehavior
@@ -29,21 +57,24 @@ class AuthRoute extends React.Component {
     return (
       <AuthConsumer>
         { ({ loggedIn, hasPermissions }) => {
-          const canAccess = this.evaluateCanAccess(loggedIn, hasPermissions);
-          console.log(canAccess);
-          return (
-            <Route
-              exact={ exact }
-              path={ path }
-              ignoreScrollBehavior={ ignoreScrollBehavior }
-              render={ (props) =>
-                (<ComposedComponent
-                  pageTitle={ title }
-                  { ...componentProps }
-                  match={ props.match } // Makes sure context of THIS route is passed in
-                />) }
-            />
-          );
+          const isLoggedIn = loggedIn();
+          const canAccess = this.evaluateCanAccess(isLoggedIn, hasPermissions);
+          if (canAccess) {
+            return (
+              <Route
+                exact={ exact }
+                path={ path }
+                ignoreScrollBehavior={ ignoreScrollBehavior }
+                render={ (props) =>
+                  (<ComposedComponent
+                    pageTitle={ title }
+                    { ...componentProps }
+                    match={ props.match } // Makes sure context of THIS route is passed in
+                  />) }
+              />
+            );
+          }
+          return this.renderRedirect(loggedIn);
       } }
       </AuthConsumer>
     );

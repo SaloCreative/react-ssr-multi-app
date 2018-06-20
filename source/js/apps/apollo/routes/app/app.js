@@ -95,7 +95,7 @@ class App extends React.Component {
 App.propTypes = {
   location: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  t: PropTypes.object.isRequired
+  t: PropTypes.func.isRequired
 };
 
 export default translate(['common'])(App);
