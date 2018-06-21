@@ -9,7 +9,6 @@ import Page from '../../containers/hoc/page';
 class AuthenticatedRoute extends React.Component {
   render() {
     const { t } = this.props;
-
     return ([
       <Helmet key='helmet'>
         <title>{ t('AUTHENTICATED_ROUTE') }</title>

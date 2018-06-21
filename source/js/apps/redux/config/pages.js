@@ -24,6 +24,6 @@ export const FORBIDDEN = {
 };
 
 export const FOUROHFOUR = {
-  path: `${ base }/*`,
+  path: `/${ AppConfig.name }/*`,
   title: '404'
 };

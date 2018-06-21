@@ -9,6 +9,7 @@ import { AlertProvider, AlertConsumer } from '@salocreative/alerts';
 // COMPONENTS
 import { Container } from '../../../../components';
 import Menu from '../../../../components/app/menu';
+import { Consumer as LanguageConsumer } from '../../../../context/language';
 
 // HELPERS
 import renderRoutes from '../../../../components/app/renderRoutes';
@@ -46,25 +47,29 @@ class App extends React.Component {
   }
 
   render() {
-    const { match } = this.props;
-    const language = match.params.language ? match.params.language : 'en';
     return (
       <AppWrapper>
         <Helmet titleTemplate='%s | Salo Creative' />
-        <Menu
-          routes={ {
-              HOME,
-              AUTHENTICATED_ROUTE,
-              WHOOPS
-            } }
-          language={ language }
-        />
-        <Container>
-          <AlertProvider alerts={ this.transformAlerts() } alertsMerged={ (alerts) => this.removeOriginalAlerts(alerts) }>
-            <AlertConsumer />
-            { renderRoutes(this.props, routesConfig) }
-          </AlertProvider>
-        </Container>
+        <LanguageConsumer>
+          { ({ language }) => (
+            <React.Fragment>
+              <Menu
+                routes={ {
+                  HOME,
+                  AUTHENTICATED_ROUTE,
+                  WHOOPS
+                } }
+                language={ language }
+              />
+              <Container>
+                <AlertProvider alerts={ this.transformAlerts() } alertsMerged={ (alerts) => this.removeOriginalAlerts(alerts) }>
+                  <AlertConsumer />
+                  { renderRoutes(this.props, routesConfig) }
+                </AlertProvider>
+              </Container>
+            </React.Fragment>
+          ) }
+        </LanguageConsumer>
       </AppWrapper>
     );
   }
@@ -72,7 +77,6 @@ class App extends React.Component {
 
 App.propTypes = {
   location: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   systemAlerts: PropTypes.array.isRequired,
   clearAlert: PropTypes.func.isRequired
 };

@@ -22,12 +22,12 @@ class AuthRoute extends React.Component {
   }
 
   evaluateRedirect(isLoggedIn) {
-    const { authenticated, redirect } = this.props;
+    const { authenticated, redirect, language } = this.props;
     if (authenticated && !isLoggedIn) {
       // If require logged in user and not logged in load login component
       return '/login';
     }
-    return redirect;
+    return redirect.replace(':language', language);
   }
 
   renderRedirect(isLoggedIn) {
@@ -42,7 +42,7 @@ class AuthRoute extends React.Component {
           if (redirect.includes('http')) {
             return <ExternalRedirect url={ redirect } />;
           }
-          return <Redirect to={ this.evaluateRedirect(isLoggedIn) } />;
+          return <Redirect to={ redirect } />;
         } }
       />
     );
@@ -50,7 +50,7 @@ class AuthRoute extends React.Component {
 
   render() {
     const {
-      component: ComposedComponent, path, title, componentProps, exact, ignoreScrollBehavior
+      component: ComposedComponent, path, title, componentProps, exact, ignoreScrollBehavior, language
     } = this.props;
     return (
       <AuthConsumer>
@@ -85,7 +85,8 @@ AuthRoute.defaultProps = {
   notAuthenticated: false, // If true the route requires user to be not logged in
   redirect: '/404-error',
   exact: false,
-  ignoreScrollBehavior: false
+  ignoreScrollBehavior: false,
+  language: ''
 };
 
 AuthRoute.propTypes = {
@@ -98,7 +99,8 @@ AuthRoute.propTypes = {
   permissions: PropTypes.array,
   redirect: PropTypes.string,
   exact: PropTypes.bool,
-  ignoreScrollBehavior: PropTypes.bool
+  ignoreScrollBehavior: PropTypes.bool,
+  language: PropTypes.string
 };
 
 export default AuthRoute;
