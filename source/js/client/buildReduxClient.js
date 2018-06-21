@@ -9,6 +9,7 @@ import 'isomorphic-fetch';
 
 // COMPONENTS
 import { AuthProvider, getTokensClient } from '../auth';
+import LanguageProvider from '../context/language/provider';
 
 // HELPERS
 import createi18nInstance from '../i18n'; // initialised i18next instances
@@ -42,23 +43,26 @@ const renderApp = (appName, store, Client) => {
 
   // Create i18n instance
   const i18n = createi18nInstance(appName);
-
+  const locale = window.__i18n ? window.__i18n.locale : 'en'; // eslint-disable-line
+ 
   const cookies = new Cookies();
   const tokens = getTokensClient(cookies);
 
   return ReactDOM.hydrate(
     <Provider store={ store }>
-      <AuthProvider tokens={ tokens }>
-        <AppContainer warnings={ false }>
-          <I18nextProvider
-            i18n={ i18n }
-            initialI18nStore={ buildI18nStore(appName) }
-            initialLanguage={ window.__i18n ? window.__i18n.locale : '' }
-          >
-            <Client />
-          </I18nextProvider>
-        </AppContainer>
-      </AuthProvider>
+      <LanguageProvider language={ locale }>
+        <AuthProvider tokens={ tokens }>
+          <AppContainer warnings={ false }>
+            <I18nextProvider
+              i18n={ i18n }
+              initialI18nStore={ buildI18nStore(appName) }
+              initialLanguage={ locale }
+            >
+              <Client />
+            </I18nextProvider>
+          </AppContainer>
+        </AuthProvider>
+      </LanguageProvider>
     </Provider>,
     document.getElementById('root')
   );
