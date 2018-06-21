@@ -15,7 +15,12 @@ export const WHOOPS = {
 export const AUTHENTICATED_ROUTE = {
   path: `${ base }/authenticated-route`,
   title: 'AUTHENTICATED_ROUTE',
-  permissions: [1, 2, 3]
+  permissions: [1234]
+};
+
+export const FORBIDDEN = {
+  path: `${ base }/403-error`,
+  title: '403'
 };
 
 export const FOUROHFOUR = {
