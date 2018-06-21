@@ -36,7 +36,7 @@ export default function Page(ComposedComponent) {
           i18next.changeLanguage(language);
           try {
             localStorage.clear();
-            localStorage.setItem('version', VERSION);
+            localStorage.setItem('version', VERSION); // eslint-disable-line
           } catch (e) {
             // console && console.log('could not set');
           }
