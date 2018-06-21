@@ -6,9 +6,6 @@ import { Redirect, Route } from 'react-router-dom';
 import { Consumer as AuthConsumer } from '../context';
 import ExternalRedirect from './externalRedirect';
 
-// HELPERS
-import { isBrowser } from '../../helpers';
-
 class AuthRoute extends React.Component {
   evaluateCanAccess(isLoggedIn, hasPermissions) {
     const { notAuthenticated, authenticated, permissions } = this.props;
@@ -74,10 +71,8 @@ class AuthRoute extends React.Component {
                   />) }
               />
             );
-          } else if (isBrowser) {
-            return this.renderRedirect(isLoggedIn);
           }
-          return null;
+          return this.renderRedirect(isLoggedIn);
       } }
       </AuthConsumer>
     );

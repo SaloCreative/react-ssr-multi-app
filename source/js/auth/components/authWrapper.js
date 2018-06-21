@@ -36,7 +36,7 @@ AuthWrapper.defaultProps = {
 
 AuthWrapper.propTypes = {
   children: PropTypes.any.isRequired,
-  permissions: PropTypes.any.isRequired,
+  permissions: PropTypes.any,
   authenticated: PropTypes.bool
 };
 
