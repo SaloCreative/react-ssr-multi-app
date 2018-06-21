@@ -12,6 +12,7 @@ export const getLocaleParams = (lang, branch) => {
       matchParams = match.params;
     }
   });
+  locale = CONFIG.languages.includes(locale) ? locale : 'en';
   return { locale, matchParams };
 };
 
