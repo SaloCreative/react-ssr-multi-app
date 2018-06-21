@@ -8,6 +8,7 @@ import { AlertProvider, AlertConsumer } from '@salocreative/alerts';
 // COMPONENTS
 import { Container } from '../../../../components';
 import Menu from '../../../../components/app/menu';
+import { Consumer as LanguageConsumer } from '../../../../context/language';
 
 // HELPERS
 import renderRoutes from '../../../../components/app/renderRoutes';
@@ -28,33 +29,36 @@ class App extends React.Component {
   }
 
   render() {
-    const { match } = this.props;
-    const language = match.params.language ? match.params.language : 'en';
     return (
       <AppWrapper>
         <Helmet titleTemplate='%s | Salo Creative' />
-        <Menu
-          routes={ {
-              HOME,
-              AUTHENTICATED_ROUTE,
-              WHOOPS
-            } }
-          language={ language }
-        />
-        <Container>
-          <AlertProvider>
-            <AlertConsumer topOffset={ 0 } />
-            { renderRoutes(this.props, routesConfig) }
-          </AlertProvider>
-        </Container>
+        <LanguageConsumer>
+          { ({ language }) => (
+            <React.Fragment>
+              <Menu
+                routes={ {
+                  HOME,
+                  AUTHENTICATED_ROUTE,
+                  WHOOPS
+                } }
+                language={ language }
+              />
+              <Container>
+                <AlertProvider>
+                  <AlertConsumer topOffset={ 0 } />
+                  { renderRoutes(this.props, routesConfig, language) }
+                </AlertProvider>
+              </Container>
+            </React.Fragment>
+          ) }
+        </LanguageConsumer>
       </AppWrapper>
     );
   }
 }
 
 App.propTypes = {
-  location: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired
 };
 
 export default translate(['common'])(App);

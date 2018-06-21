@@ -31,7 +31,7 @@ const routesConfig = [
     ...FORBIDDEN
   },
   {
-    exact: true,
+    exact: false,
     component: NotFound,
     authenticated: false,
     ...FOUROHFOUR
