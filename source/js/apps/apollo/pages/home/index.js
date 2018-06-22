@@ -112,8 +112,8 @@ class Home extends React.Component {
             );
           } }
           </AuthConsumer>
-          { /* { this.renderContent() }
-        { this.renderUsers() } */ }
+          { this.renderContent() }
+          { this.renderUsers() }
         </div>
       </React.Fragment>
     );
