@@ -9,7 +9,6 @@ const createi18nServerInstance = (namespace = 'common') => {
     .use(LanguageDetector)
     .init({
       whitelist: CONFIG.languages,
-      wait: false,
       fallbackLng: 'en',
 
       // have a common namespace used around the full app

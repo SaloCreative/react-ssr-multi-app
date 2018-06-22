@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import { translate } from 'react-i18next';
+import { translate, I18n } from 'react-i18next';
 import styled from 'styled-components';
 import { map } from 'lodash';
 import { AlertProvider, AlertConsumer } from '@salocreative/alerts';
@@ -9,7 +9,6 @@ import { AlertProvider, AlertConsumer } from '@salocreative/alerts';
 // COMPONENTS
 import { Container } from '../../../../components';
 import Menu from '../../../../components/app/menu';
-import { Consumer as LanguageConsumer } from '../../../../context/language';
 
 // HELPERS
 import renderRoutes from '../../../../components/app/renderRoutes';
@@ -50,8 +49,8 @@ class App extends React.Component {
     return (
       <AppWrapper>
         <Helmet titleTemplate='%s | Salo Creative' />
-        <LanguageConsumer>
-          { ({ language }) => (
+        <I18n ns={ ['common'] }>
+          { (t, { i18n }) => (
             <React.Fragment>
               <Menu
                 routes={ {
@@ -59,17 +58,17 @@ class App extends React.Component {
                   AUTHENTICATED_ROUTE,
                   WHOOPS
                 } }
-                language={ language }
+                language={ i18n.language }
               />
               <Container>
                 <AlertProvider alerts={ this.transformAlerts() } alertsMerged={ (alerts) => this.removeOriginalAlerts(alerts) }>
                   <AlertConsumer />
-                  { renderRoutes(this.props, routesConfig) }
+                  { renderRoutes(this.props, routesConfig, i18n.language) }
                 </AlertProvider>
               </Container>
             </React.Fragment>
           ) }
-        </LanguageConsumer>
+        </I18n>
       </AppWrapper>
     );
   }
