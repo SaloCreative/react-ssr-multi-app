@@ -9,7 +9,8 @@
 * [Auth](#auth)
 	* [Tokens](#tokens)
 	* [Auth Context](#auth-context)
-	* [AuthWrapper](#authwrapper) 
+	* [AuthWrapper](#authwrapper)
+	* [AuthRoute](#authroute) 
 * [Server side fetching](#server-side-fetching)
 	* [APOLLO](#apollo)
 	* [REDUX](#redux) 
@@ -171,6 +172,10 @@ The AuthWrapper is a simple component that can be used in the app to show or hid
 	// ... my components requiring permissions
 </AuthWrapper>
 ```
+
+## AuthRoute
+
+To document still
 
 # Server side fetching
 
