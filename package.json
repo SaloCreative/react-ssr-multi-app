@@ -113,7 +113,7 @@
     "query-string": "^5.0.0",
     "react": "^16.2.0",
     "react-addons-css-transition-group": "^15.6.0",
-    "react-apollo": "^2.1.4",
+    "react-apollo": "^2.1.6",
     "react-content-loader": "^1.4.1",
     "react-dom": "^16.2.0",
     "react-helmet": "^5.1.3",

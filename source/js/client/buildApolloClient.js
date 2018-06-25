@@ -9,7 +9,6 @@ import 'isomorphic-fetch';
 
 // COMPONENTS
 import { AuthProvider, getTokensClient } from '../auth';
-import LanguageProvider from '../context/language/provider';
 
 // HELPERS
 import createi18nInstance from '../i18n'; // initialised i18next instances
@@ -50,8 +49,7 @@ const renderApp = (appName, store, Client) => {
 
   return ReactDOM.hydrate(
     <ApolloProvider client={ store }>
-      <LanguageProvider language={ locale }>
-        <AuthProvider tokens={ tokens }>
+      <AuthProvider tokens={ tokens }>
           <AppContainer warnings={ false }>
             <I18nextProvider
               i18n={ i18n }
@@ -62,7 +60,6 @@ const renderApp = (appName, store, Client) => {
             </I18nextProvider>
           </AppContainer>
         </AuthProvider>
-      </LanguageProvider>
     </ApolloProvider>,
     document.getElementById('root')
   );
