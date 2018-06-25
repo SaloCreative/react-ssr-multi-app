@@ -4,12 +4,14 @@ import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
 import { Provider } from 'react-redux';
 import Helmet from 'react-helmet';
 import { I18nextProvider } from 'react-i18next';
-import createi18nServerInstance from './i18n.server'; // initialised i18next instances
 
 // COMPONENTS
 import getServerHtml from './serverHTML';
 import Server from './server';
 import { AuthProvider } from '../auth';
+
+// HELPERS
+import createi18nServerInstance from './i18n.server'; // initialised i18next instances
 
 export default ({
   res, AppContainer, promises, locale, store, url, appName, tokens
@@ -55,8 +57,9 @@ export default ({
         appName
       });
       // Context has url, which means `<Redirect>` was rendered somewhere
-      if (context.url) {
-        return res.redirect(301, context.url);
+      if (context.url || url.includes(':language')) {
+        const redirect = url.includes(':language') ? url.replace(':language', locale) : context.url;
+        return res.redirect(301, redirect);
       }
       // We're good, send the response
       return res.status(context.status || 200).send(serverHtml);

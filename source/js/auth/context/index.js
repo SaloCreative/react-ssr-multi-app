@@ -4,7 +4,9 @@ const { Provider, Consumer } = createContext({
   user: {},
   jwt: {},
   login: () => {},
-  logout: () => {}
+  logout: () => {},
+  loggedIn: () => false,
+  hasPermissions: () => false
 });
 
 export { Provider, Consumer };

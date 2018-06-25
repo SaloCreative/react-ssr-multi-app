@@ -8,7 +8,6 @@ import { isBrowser } from '../../../../helpers';
 import history from '../../../../config/browserHistory';
 import CONFIG from '../../../../config';
 import Loader from '../../../../components/loader';
-import { HOME } from '../../config/pages';
 
 function getDisplayName(ComposedComponent) {
   return ComposedComponent.displayName || ComposedComponent.name || 'Component';
@@ -37,19 +36,22 @@ export default function Page(ComposedComponent) {
           i18next.changeLanguage(language);
           try {
             localStorage.clear();
-            localStorage.setItem('version', VERSION);
+            localStorage.setItem('version', VERSION); // eslint-disable-line
           } catch (e) {
             // console && console.log('could not set');
           }
         }
       }
-      return null;
+      return {
+        languageValid: true
+      };
     }
 
     componentDidMount() {
+      const { path } = this.props.match;
       const { languageValid } = this.state;
       if (!languageValid) {
-        const url = HOME.path.replace(':language', 'en');
+        const url = path.replace(':language', 'en');
         history.push(url);
       }
     }
@@ -57,7 +59,6 @@ export default function Page(ComposedComponent) {
     render() {
       const { languageValid } = this.state;
       if (!languageValid) return null;
-
       const loading = false;
       return (
         <React.Fragment>

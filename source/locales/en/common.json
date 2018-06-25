@@ -2,10 +2,14 @@
   "HOME": "Home",
   "ABOUT": "About",
   "CONTACT": "Contact",
+  "AUTHENTICATED_ROUTE": "Authenticated Route",
   "404": "404 Error",
+  "403": "403 Error",
   "WHOOPS": "Whoops",
   "ERROR_TITLE": "Page not found | 404 Error",
   "ERROR_TEXT": "Sorry we couldn't find the page you were looking for. It may not exist or has been moved.",
-  "WHOOPS_TITLE": "Whoops something went wrong!",
+  "FORBIDDEN_TITLE": "Forbidden | 403 Error",
+  "FORBIDDEN_TEXT": "Sorry the page you are trying to access is restricted",
+  "WHOOPS_TITLE": "Whoops | something went wrong!",
   "WHOOPS_TEXT": "Sorry it looks like we had an issue handling your request."
 }

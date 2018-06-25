@@ -34,3 +34,23 @@ export function getTokensClient(cookies) {
   }
   return tokens;
 }
+
+// mapCookieToState shape
+export function mapCookieToState({ jwt, user }) {
+  const userObj = {
+    id: jwt.i,
+    firstName: user.u.fn,
+    lastName: user.u.ln,
+    avatar: user.u.av,
+    language: jwt.lng
+  };
+  const jwtObj = {
+    token: jwt.t,
+    token_start: jwt.ts,
+    roles: user.r
+  };
+  return {
+    jwt: jwtObj,
+    user: userObj
+  };
+}

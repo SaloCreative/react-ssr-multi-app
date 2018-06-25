@@ -42,7 +42,8 @@ const renderApp = (appName, store, Client) => {
 
   // Create i18n instance
   const i18n = createi18nInstance(appName);
-
+  const locale = window.__i18n ? window.__i18n.locale : 'en'; // eslint-disable-line
+ 
   const cookies = new Cookies();
   const tokens = getTokensClient(cookies);
 
@@ -53,7 +54,7 @@ const renderApp = (appName, store, Client) => {
           <I18nextProvider
             i18n={ i18n }
             initialI18nStore={ buildI18nStore(appName) }
-            initialLanguage={ window.__i18n ? window.__i18n.locale : '' }
+            initialLanguage={ locale }
           >
             <Client />
           </I18nextProvider>

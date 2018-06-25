@@ -11,7 +11,9 @@ const createi18nInstance = (namespace) => {
     .use(LanguageDetector)
     .init({
       fallbackLng: 'en',
-      wait: true, // globally set to wait for loaded translations in translate hoc
+      react: {
+        wait: true // globally set to wait for loaded translations in translate hoc
+      },
 
       // have a common namespace used around the full app
       ns: [namespace],
