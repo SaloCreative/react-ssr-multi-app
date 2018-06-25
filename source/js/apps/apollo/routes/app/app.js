@@ -7,7 +7,6 @@ import { AlertProvider, AlertConsumer } from '@salocreative/alerts';
 // COMPONENTS
 import { Container } from '../../../../components';
 import Menu from '../../../../components/app/menu';
-import { Consumer as LanguageConsumer } from '../../../../context/language';
 
 // HELPERS
 import renderRoutes from '../../../../components/app/renderRoutes';
