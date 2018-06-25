@@ -50,7 +50,7 @@ class AuthRoute extends React.Component {
 
   render() {
     const {
-      component: ComposedComponent, path, title, componentProps, exact, ignoreScrollBehavior, language
+      component: ComposedComponent, path, title, componentProps, exact, ignoreScrollBehavior
     } = this.props;
     return (
       <AuthConsumer>

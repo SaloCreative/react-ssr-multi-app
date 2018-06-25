@@ -50,16 +50,16 @@ const renderApp = (appName, store, Client) => {
   return ReactDOM.hydrate(
     <ApolloProvider client={ store }>
       <AuthProvider tokens={ tokens }>
-          <AppContainer warnings={ false }>
-            <I18nextProvider
-              i18n={ i18n }
-              initialI18nStore={ buildI18nStore(appName) }
-              initialLanguage={ locale }
-            >
-              <Client />
-            </I18nextProvider>
-          </AppContainer>
-        </AuthProvider>
+        <AppContainer warnings={ false }>
+          <I18nextProvider
+            i18n={ i18n }
+            initialI18nStore={ buildI18nStore(appName) }
+            initialLanguage={ locale }
+          >
+            <Client />
+          </I18nextProvider>
+        </AppContainer>
+      </AuthProvider>
     </ApolloProvider>,
     document.getElementById('root')
   );
