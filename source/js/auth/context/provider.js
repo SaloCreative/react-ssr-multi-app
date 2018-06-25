@@ -105,7 +105,7 @@ export default class AuthProvider extends React.Component {
 }
 
 AuthProvider.defaultProps = {
-  token: null
+  tokens: null
 };
 
 AuthProvider.propTypes = {
