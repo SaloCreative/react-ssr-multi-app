@@ -1,7 +1,8 @@
 import { Provider, Consumer } from './context';
 import { getTokensClient, getTokensServer, tokenFullyExpired } from './helpers/tokens';
 
-export { default as AuthWrapper } from './wrapper';
+export { default as AuthWrapper } from './components/authWrapper';
+export { default as AuthRoute } from './components/authRoute';
 export { default as AuthProvider } from './context/provider';
 
 export {
