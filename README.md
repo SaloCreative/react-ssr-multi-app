@@ -10,7 +10,12 @@
 	* [Tokens](#tokens)
 	* [Auth Context](#auth-context)
 	* [AuthWrapper](#authwrapper)
-	* [AuthRoute](#authroute) 
+	* [AuthRoute](#authroute)
+		* [Basic example](basic-example)
+		* [Permissioned route](permissioned-route)
+		* [Logged out route](logged-out-route)
+		* [Standard route](standard-route)
+		* [Other props](other-props)
 * [Server side fetching](#server-side-fetching)
 	* [APOLLO](#apollo)
 	* [REDUX](#redux) 
@@ -175,7 +180,70 @@ The AuthWrapper is a simple component that can be used in the app to show or hid
 
 ## AuthRoute
 
-To document still
+The `AuthRoute` component is a permissioned based wrapper for React router 4. The component takes a number of required props.
+
+### Basic example
+
+The below example will render a basic route which requires a user to be logged in (it gets this data from the `AuthProvider`).
+
+```javascript
+<AuthRoute
+  path='/my-route'
+  componentProps={ props }
+  title='pagetitle'
+  component={ Component }
+/>
+```
+
+### Permissioned route
+
+You can also enforce permission checks by passing an array of grants at the component as per the following (*n.b.* you will need to configure the AuthProvider to support this in your specific application):
+
+```javascript
+<AuthRoute
+  path='/my-route'
+  componentProps={ props }
+  title='pagetitle'
+  component={ Component }
+  permissions={ [1,2,3] }
+/>
+```
+
+### Logged out route
+
+You can also require users to not be logged in to see certain routes (e.g. login or register routes). Simply pass `authenticated={ false }` & `notAuthenticated={ true }` as per the following:
+
+```javascript
+<AuthRoute
+  path='/my-route'
+  componentProps={ props }
+  title='pagetitle'
+  component={ Component }
+  authenticated={ false }
+  notAuthenticated={ true }
+/>
+```
+
+### Standard route
+
+To simplify your route rendering you can also use this component to render standard routes. Simply pass `authenticated={ false }` as per the following:
+
+```javascript
+<AuthRoute
+  path='/my-route'
+  componentProps={ props }
+  title='pagetitle'
+  component={ Component }
+  authenticated={ false }
+/>
+```
+
+### Other props
+
+- `redirect: String` - Where a component should redirect if user can't access (default is 404 or if user not logged in it will default to login)
+- `exact: Bool` - exact param for route, defaul is true
+- `language: String` - langauge to replace any :language params in redirect route
+- `ignoreScrollBehavior: Bool` - default false
 
 # Server side fetching
 
