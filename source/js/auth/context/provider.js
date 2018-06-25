@@ -13,8 +13,8 @@ const cookies = new Cookies();
 const cookieDomain = 'localhost';
 
 export default class AuthProvider extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.login = () => {
       const jwt = {
         i: 3,
@@ -55,9 +55,16 @@ export default class AuthProvider extends React.Component {
       cookies.remove('jwt', { path: '/', domain: cookieDomain });
       cookies.remove('user', { path: '/', domain: cookieDomain });
     };
+
+    // MAP TOKENS TO PROPS IF AVAILABLE
+    const { tokens } = props;
+    let stateData = { user: {}, jwt: {} };
+    if (tokens) {
+      stateData = mapCookieToState({ jwt: tokens.jwt, user: tokens.user });
+    }
     this.state = {
-      user: {},
-      jwt: {},
+      user: stateData.user,
+      jwt: stateData.jwt,
       loggedOut: false,
       login: this.login,
       logout: this.logout,
@@ -66,7 +73,7 @@ export default class AuthProvider extends React.Component {
     };
   }
 
-  // Set user into state from tokens
+  // Set user into state from tokens if we login during session
   static getDerivedStateFromProps(nextProps, prevState) {
     const { user, jwt, loggedOut } = prevState;
     const { tokens } = nextProps;
