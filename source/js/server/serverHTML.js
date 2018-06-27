@@ -34,7 +34,7 @@ const ServerHtml = ({
       />
       <script type='text/javascript' src={ `/${ outputFiles.vendor }` } />
       <script type='text/javascript' src={ `/${ outputFiles.client.replace(':name', appName) }` } />
-      <script src='https://cdn.polyfill.io/v2/polyfill.min.js' />
+      <script type='text/javascript' src='https://cdn.polyfill.io/v2/polyfill.min.js' />
     </body>
   </html>
 );
