@@ -15,7 +15,7 @@ do
   APP_DIR=./source/js/apps/$APP
   CONTROLLER_DIR=./source/js/server/controllers/$APP.js
   ROUTES_FILE=./source/js/server/routes.js
-  NEW_ROUTES="app\.route('\/$APP')\.get(handleCookies, show$APP_NAME)\; app\.route('\/$APP\/\*')\.get(handleCookies, show$APP_NAME)\;"
+  NEW_ROUTES="app\.route('\/:language\/$APP')\.get(handleLanguage, handleCookies, show$APP_NAME)\; app\.route('\/:language\/$APP\/\*')\.get(handleLanguage, handleCookies, show$APP_NAME)\;"
   NEW_ROUTE_IMPORT="import show$APP_NAME from './controllers/$APP';"
 
   echo 'Checking app is unique'

@@ -72,7 +72,7 @@ export default ({
       // Context has url, which means `<Redirect>` was rendered somewhere
       if (context.url || url.includes(':language')) {
         const redirect = url.includes(':language') ? url.replace(':language', locale) : context.url;
-        return res.redirect(301, redirect);
+        return res.redirect(302, redirect);
       }
       // We're good, send the response
       return res.status(context.status || 200).send(serverHtml);
