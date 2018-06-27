@@ -1,6 +1,6 @@
 import AppConfig from '../config';
 
-const base = `/${ AppConfig.name }/:language`;
+const base = `/:language/${ AppConfig.name }`;
 
 export const HOME = {
   path: `${ base }`,
