@@ -11,7 +11,7 @@ import 'isomorphic-fetch';
 import { AuthProvider, getTokensClient } from '../auth';
 
 // HELPERS
-import createi18nInstance from '../i18n'; // initialised i18next instances
+import createi18nInstance from './i18n'; // initialised i18next instances
 import { ENV, buildI18nStore } from '../helpers';
 
 // Load SCSS
@@ -36,7 +36,7 @@ const renderApp = (appName, store, Client) => {
   // Force no render for npm start of multi app structure
   let RENDER = true;
   if (ENV === 'development') {
-    RENDER = window.location.pathname.replace(/^\/+/g, '').split('/')[0] === appName;
+    RENDER = window.location.pathname.replace(/^\/+/g, '').split('/')[1] === appName; // offset to account for language param
   }
   if (!RENDER) return null;
 
