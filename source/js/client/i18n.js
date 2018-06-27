@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 import XHR from 'i18next-xhr-backend';
 import Cache from 'i18next-localstorage-cache';
-import CONFIG from './config';
+import CONFIG from '../config';
 
 const createi18nInstance = (namespace) => {
   return i18n
