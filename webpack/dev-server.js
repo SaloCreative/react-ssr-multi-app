@@ -1,14 +1,13 @@
-const paths = require('./config').paths;
-const IS_PRODUCTION = require('./config').IS_PRODUCTION;
+const { paths, IS_DEVELOPMENT } = require('./config');
 
 const devServer = {
-  contentBase: IS_PRODUCTION ? paths.build : paths.source,
+  contentBase: !IS_DEVELOPMENT ? paths.build : paths.source,
   historyApiFallback: true,
   port: 8001,
-  compress: IS_PRODUCTION,
-  inline: !IS_PRODUCTION,
-  hot: !IS_PRODUCTION,
-  host: '0.0.0.0',
+  compress: !IS_DEVELOPMENT,
+  inline: IS_DEVELOPMENT,
+  hot: IS_DEVELOPMENT,
+  host: IS_DEVELOPMENT ? 'localhost' : '0.0.0.0',
   disableHostCheck: true, // To enable local network testing
   overlay: true,
   stats: {

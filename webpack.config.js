@@ -5,32 +5,39 @@ const entryPoints = [
 
 const webpack = require('webpack');
 const path = require('path');
-
-const { paths } = require('./webpack/config');
-const { outputFiles } = require('./webpack/config');
-const { rules } = require('./webpack/config');
-const { plugins } = require('./webpack/config');
-const { resolve } = require('./webpack/config');
-const { IS_PRODUCTION } = require('./webpack/config');
-const { IS_DEVELOPMENT } = require('./webpack/config');
-
-const { devServer } = require('./webpack/dev-server');
-const packageFile = require('./package.json');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 
+const {
+  paths,
+  outputFiles,
+  rules,
+  plugins,
+  resolve,
+  IS_PRODUCTION,
+  IS_DEVELOPMENT
+} = require('./webpack/config');
+const { devServer } = require('./webpack/dev-server');
+const packageFile = require('./package.json');
+
 // Default client app entry files
-let entries = entryPoints.map(item => {
-  return { app: item, files: [path.join(paths.javascript, `./apps/${ item }/client.js`)] };
+let entries = entryPoints.map(app => {
+  return {
+    app,
+    files: [
+      path.join(paths.javascript, `./apps/${ app }/client.js`)
+    ]
+  };
 });
 
 // Return entry object
 function buildEntry() {
   const entry = {};
   entries.forEach(item => {
-    entry[item.app] = item.files;
+    const ent = ['@babel/polyfill'];
+    entry[item.app] = ent.concat(item.files);
   });
   return entry;
 }
@@ -100,7 +107,7 @@ if (IS_DEVELOPMENT) {
 module.exports = {
   devtool: IS_PRODUCTION ? false : 'cheap-eval-source-map',
   context: paths.javascript,
-  watch: !IS_PRODUCTION,
+  watch: IS_DEVELOPMENT,
   entry: buildEntry(),
   output: {
     path: paths.build,
