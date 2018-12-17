@@ -120,7 +120,6 @@
     "recompose": "^0.26.0",
     "serialize-javascript": "^1.4.0",
     "styled-components": "^3.4.5",
-    "superagent": "^3.8.2",
     "transit-immutable-js": "^0.7.0",
     "transit-js": "^0.8.846",
     "universal-cookie": "^2.0.8"
