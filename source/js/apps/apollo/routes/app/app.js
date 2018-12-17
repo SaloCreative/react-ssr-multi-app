@@ -30,7 +30,7 @@ class App extends React.Component {
     return (
       <AppWrapper>
         <Helmet titleTemplate='%s | Salo Creative' />
-        <I18n ns={ ['common'] }>
+        <I18n>
           { (t, { i18n }) => (
             <React.Fragment>
               <Menu
