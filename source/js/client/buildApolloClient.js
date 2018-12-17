@@ -31,23 +31,26 @@ if (localStorage) {
   }
 }
 
-const renderApp = (appName, store, Client) => {
-  // Force no render for npm start of multi app structure
-  let RENDER = true;
+const renderApp = ({
+  appName, Client, apollo
+}) => {
+  // Don't render if the page URL is for a different app (eg: npm start of multi app structure)
   if (ENV === 'development') {
-    RENDER = window.location.pathname.replace(/^\/+/g, '').split('/')[1] === appName; // offset to account for language param
+    const urlAppName = window.location.pathname.replace(/^\/+/g, '').split('/')[1]; // offset to account for language param
+    if (urlAppName !== appName) {
+      return null;
+    }
   }
-  if (!RENDER) return null;
 
   // Create i18n instance
   const i18n = createi18nInstance(appName);
   const locale = window.__i18n ? window.__i18n.locale : 'en'; // eslint-disable-line
-  
+
   const cookies = new Cookies();
   const tokens = getTokensClient(cookies);
 
   return ReactDOM.hydrate(
-    <ApolloProvider client={ store }>
+    <ApolloProvider client={ apollo }>
       <AuthProvider tokens={ tokens }>
         <AppContainer warnings={ false }>
           <I18nextProvider
@@ -64,8 +67,6 @@ const renderApp = (appName, store, Client) => {
   );
 };
 
-const buildClient = (appName, store, Client) => {
-  return renderApp(appName, store, Client);
-};
+const buildClient = (params) => renderApp(params);
 
 export default buildClient;

@@ -1,11 +1,19 @@
 import buildClient from '../../client/buildApolloClient';
-import apollo from './config/apollo';
+import { apollo } from '../../apollo';
 import AppConfig from './config';
 import Client from './routes/app/client';
 
 // Render app
-buildClient(AppConfig.name, apollo, Client);
+buildClient({
+  appName: AppConfig.name,
+  Client,
+  apollo: apollo(AppConfig.GraphQLUrl)
+});
 
 if (module.hot) {
-  module.hot.accept('./routes/app/client', buildClient(AppConfig.name, store, Client));
+  module.hot.accept('./routes/app/client', buildClient({
+    appName: AppConfig.name,
+    Client,
+    apollo: apollo(AppConfig.GraphQLUrl)
+  }));
 }

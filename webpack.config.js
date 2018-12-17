@@ -1,6 +1,5 @@
 const entryPoints = [
-  'apollo',
-  'redux'
+  'apollo'
 ];
 
 const webpack = require('webpack');
