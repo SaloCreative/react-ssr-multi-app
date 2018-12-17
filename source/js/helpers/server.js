@@ -15,18 +15,3 @@ export const getLocaleParams = (lang, branch) => {
   locale = CONFIG.languages.includes(locale) ? locale : 'en';
   return { locale, matchParams };
 };
-
-// CHECK FOR INITIAL PROPS FETCH
-export const initialPropsFetch = ({
-  branch, store, tokens, matchParams
-}) => {
-  return branch.map(({ route }) => {
-    if (route.component && route.component.getInitialProps && route.path !== '*') {
-      const { getInitialProps } = route.component;
-      if (getInitialProps instanceof Function && matchParams) {
-        return getInitialProps(store, matchParams, tokens);
-      }
-    }
-    return Promise.resolve(null);
-  });
-};
