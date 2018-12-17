@@ -20,7 +20,8 @@ const { outputFiles } = require('./output-files');
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const SERVER_RENDER = process.env.SERVER_RENDER === 'true';
 const IS_DEVELOPMENT = NODE_ENV === 'development';
-const IS_PRODUCTION = NODE_ENV === 'production' || NODE_ENV === 'staging';
+const IS_PRODUCTION = NODE_ENV === 'production';
+const IS_STAGING = NODE_ENV === 'staging';
 
 // ----------
 // PLUGINS
@@ -39,7 +40,7 @@ const plugins = [
   })
 ];
 
-if (IS_PRODUCTION) {
+if (IS_PRODUCTION || IS_STAGING) {
   // Shared production plugins
   plugins.push(new webpack.optimize.UglifyJsPlugin({
     compress: {
@@ -103,6 +104,12 @@ const rules = [
     include: paths.svg
   },
   {
+    test: /\.(html)$/,
+    use: {
+      loader: 'html-loader'
+    }
+  },
+  {
     test: /\.(png|gif|jpg|svg)$/,
     include: paths.images,
     use: [
@@ -115,7 +122,7 @@ const rules = [
     ]
   },
   {
-    test: /\.(woff|ttf|woff2|otf)$/,
+    test: /\.(woff|ttf|woff2|otf|eot)$/,
     include: paths.fonts,
     use: [
       {
@@ -144,7 +151,7 @@ const getSassRule = () => {
       loader: 'css-loader',
       options: {
         sourceMap: IS_DEVELOPMENT,
-        minimize: IS_PRODUCTION
+        minimize: !IS_DEVELOPMENT
       }
     },
     {
@@ -162,7 +169,7 @@ const getSassRule = () => {
     }
   ];
 
-  if (IS_PRODUCTION || SERVER_RENDER) {
+  if (IS_PRODUCTION || IS_STAGING || SERVER_RENDER) {
     return {
       test: /\.scss$/,
       loader: ExtractTextPlugin.extract({

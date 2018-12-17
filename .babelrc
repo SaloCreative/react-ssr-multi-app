@@ -1,28 +1,50 @@
 {
   "plugins": [
-    "transform-decorators-legacy",
-    "transform-class-properties",
-    "syntax-decorators",
-    ["babel-plugin-styled-components", {
-      "ssr": true
-    }]
+    "lodash",
+    "@babel/plugin-transform-runtime",
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-proposal-class-properties",
+    [
+      "@babel/plugin-syntax-decorators",
+      {
+        "legacy": true
+      }
+    ],
+    [
+      "babel-plugin-styled-components",
+      {
+        "ssr": true
+      }
+    ]
   ],
   "presets": [
-    ["env", { "modules": false }],
-    "stage-0",
-    "react"
+    [
+      "@babel/preset-env",
+      {
+        "modules": false,
+        "useBuiltIns": "entry",
+        "targets": {
+          "node": true,
+          "browsers": [
+            "last 3 versions",
+            "ie >= 11"
+          ]
+        }
+      }
+    ],
+    "@babel/react"
   ],
   "env": {
     "test": {
-      "presets": ["env", "stage-0", "react"]
+      "presets": [
+        "@babel/preset-env",
+        "@babel/react"
+      ]
     },
     "development": {
       "plugins": [
         "react-hot-loader/babel"
       ]
-    },
-    "production": {
-      "presets": ["react-optimize"]
     }
   }
 }
