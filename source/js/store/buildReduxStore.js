@@ -1,5 +1,4 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import 'babel-polyfill';
 import thunk from 'redux-thunk';
 import { apiMiddleware } from '@aftonbladet/redux-api-middleware';
 

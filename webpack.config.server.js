@@ -13,6 +13,7 @@ const config = {
   devtool: IS_DEVELOPMENT ? 'source-map' : false,
   context: paths.javascript,
   entry: [
+    '@babel/polyfill',
     './app.js'
   ],
   output: {

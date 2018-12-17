@@ -4,7 +4,6 @@ import { AppContainer } from 'react-hot-loader';
 import { I18nextProvider } from 'react-i18next'; // as we build ourself via webpack
 import { Provider } from 'react-redux';
 import Cookies from 'universal-cookie';
-import 'babel-polyfill';
 import 'isomorphic-fetch';
 
 // COMPONENTS

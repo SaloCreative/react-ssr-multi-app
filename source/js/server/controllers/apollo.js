@@ -1,5 +1,4 @@
 import { matchRoutes } from 'react-router-config';
-import 'babel-polyfill';
 
 // Server functions
 import { getLocaleParams } from '../../helpers/server';
