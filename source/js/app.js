@@ -1,14 +1,12 @@
 import express from 'express';
 import i18nMiddleware from 'i18next-express-middleware';
-import 'babel-polyfill';
-
 import createi18nServerInstance from './server/i18n.server'; // initialised i18next instances
 import routes from './server/routes';
 
 // Load SCSS
 import '../scss/app.scss';
 
-import { ENV } from './helpers';
+const ENV = process.env.NODE_ENV;
 
 const app = express();
 const hostname = '0.0.0.0';
@@ -20,6 +18,13 @@ if (ENV === 'production' || ENV === 'staging') {
 app.use('/client', express.static('build/client'));
 app.use(i18nMiddleware.handle(createi18nServerInstance()));
 app.disable('x-powered-by');
+
+app.use((req, res, next) => {
+  if (req.url === '/') {
+    return res.redirect(301, '/en');
+  }
+  return next();
+});
 
 routes(app);
 

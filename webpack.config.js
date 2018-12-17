@@ -1,5 +1,5 @@
 const entryPoints = [
-'apollo',
+  'apollo',
   'redux'
 ];
 
