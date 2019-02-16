@@ -1,15 +1,14 @@
 import express from 'express';
 import i18nMiddleware from 'i18next-express-middleware';
+
 import createi18nServerInstance from './server/i18n.server'; // initialised i18next instances
 import routes from './server/routes';
+import FourOFour from '../assets/pages/404.html';
 
-// Load SCSS
-import '../scss/app.scss';
-
-const ENV = process.env.NODE_ENV;
+import { ENV } from './helpers';
 
 const app = express();
-const hostname = '0.0.0.0';
+const hostname = 'localhost';
 let port = 8080;
 if (ENV === 'production' || ENV === 'staging') {
   port = 80;
@@ -30,7 +29,7 @@ routes(app);
 
 // Handle the 404
 app.use((req, res) => {
-  res.status(404).send({ code: 404, status: 'fail', message: 'The requested resource not found' });
+  return res.status(404).send(FourOFour);
 });
 
 // Start listening

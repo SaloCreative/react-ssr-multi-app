@@ -3,11 +3,11 @@ import serverHistory from '../config/serverHistory';
 
 // BUILD CLIENT i18n STORE
 export function buildI18nStore(appName) {
-  if (window.__i18n) {
+  if (window.__i18n) { // eslint-disable-line no-underscore-dangle
     return {
-      [window.__i18n.locale]: {
-        [appName]: window.__i18n.resources[appName],
-        common: window.__i18n.resources.common
+      [window.__i18n.locale]: { // eslint-disable-line no-underscore-dangle
+        [appName]: window.__i18n.resources[appName], // eslint-disable-line no-underscore-dangle
+        common: window.__i18n.resources.common // eslint-disable-line no-underscore-dangle
       }
     };
   }
