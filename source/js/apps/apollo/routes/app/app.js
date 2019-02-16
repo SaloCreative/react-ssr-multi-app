@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import { translate, I18n } from 'react-i18next';
+import { withNamespaces, NamespacesConsumer } from 'react-i18next';
 import styled from 'styled-components';
 import { AlertProvider, AlertConsumer } from '@salocreative/alerts';
 // COMPONENTS
@@ -30,7 +30,7 @@ class App extends React.Component {
     return (
       <AppWrapper>
         <Helmet titleTemplate='%s | Salo Creative' />
-        <I18n ns={ ['common'] }>
+        <NamespacesConsumer>
           { (t, { i18n }) => (
             <React.Fragment>
               <Menu
@@ -48,8 +48,8 @@ class App extends React.Component {
                 </AlertProvider>
               </Container>
             </React.Fragment>
-        ) }
-        </I18n>
+          ) }
+        </NamespacesConsumer>
       </AppWrapper>
     );
   }
@@ -59,4 +59,4 @@ App.propTypes = {
   location: PropTypes.object.isRequired
 };
 
-export default translate(['common'])(App);
+export default withNamespaces(['common'])(App);

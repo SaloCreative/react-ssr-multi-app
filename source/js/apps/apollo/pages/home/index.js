@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import { translate } from 'react-i18next';
+import { withNamespaces } from 'react-i18next';
 import { Query } from 'react-apollo';
 import { Consumer as AlertsConsumer } from '@salocreative/alerts';
 
@@ -124,4 +124,4 @@ Home.propTypes = {
   t: PropTypes.func.isRequired
 };
 
-export default Page(translate(['common'])(Home));
+export default Page(withNamespaces(['common'])(Home));

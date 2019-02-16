@@ -2,12 +2,11 @@ echo 'Enter the title of your app'
 read APP
 
 echo 'apollo or redux?'
-options=("APOLLO" "REDUX")
+options=("APOLLO")
 select TYPE in "${options[@]}" "Quit";
 do
   case "$REPLY" in
     1) echo "you chose choice $TYPE";;
-    2) echo "you chose choice $TYPE";;
     $(( ${#options[@]}+1 )) ) echo "Goodbye!"; break;;
     *) echo "Invalid option. Try another one.";continue;;
   esac

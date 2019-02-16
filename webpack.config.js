@@ -1,36 +1,40 @@
 const entryPoints = [
-'apollo',
-  'redux'
+  'apollo'
 ];
 
 const webpack = require('webpack');
 const path = require('path');
-
-const { paths } = require('./webpack/config');
-const { outputFiles } = require('./webpack/config');
-const { rules } = require('./webpack/config');
-const { plugins } = require('./webpack/config');
-const { resolve } = require('./webpack/config');
-const { IS_PRODUCTION } = require('./webpack/config');
-const { IS_DEVELOPMENT } = require('./webpack/config');
-
-const { devServer } = require('./webpack/dev-server');
-const packageFile = require('./package.json');
-const DashboardPlugin = require('webpack-dashboard/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 
+const {
+  paths,
+  outputFiles,
+  rules,
+  plugins,
+  resolve,
+  IS_PRODUCTION,
+  IS_DEVELOPMENT
+} = require('./webpack/config');
+const { devServer } = require('./webpack/dev-server');
+
 // Default client app entry files
-let entries = entryPoints.map(item => {
-  return { app: item, files: [path.join(paths.javascript, `./apps/${ item }/client.js`)] };
+const entries = entryPoints.map(app => {
+  return {
+    app,
+    files: [
+      path.join(paths.javascript, `./apps/${ app }/client.js`)
+    ]
+  };
 });
 
 // Return entry object
 function buildEntry() {
   const entry = {};
   entries.forEach(item => {
-    entry[item.app] = item.files;
+    const ent = ['@babel/polyfill'];
+    entry[item.app] = ent.concat(item.files);
   });
   return entry;
 }
@@ -43,15 +47,6 @@ plugins.push(
     failOnError: false,
     // set the current working directory for displaying module paths
     cwd: process.cwd()
-  }),
-  // Creates vendor chunk from modules coming from node_modules folder
-  new webpack.optimize.CommonsChunkPlugin({
-    name: 'vendor',
-    filename: outputFiles.vendor,
-    minChunks(module) {
-      const { context } = module;
-      return context && context.indexOf('node_modules') >= 0;
-    }
   }),
   // Builds index.html from template
   new HtmlWebpackPlugin({
@@ -66,9 +61,6 @@ plugins.push(
       useShortDoctype: true
     }
   }),
-  new webpack.DefinePlugin({
-    VERSION: JSON.stringify(packageFile.codename)
-  }),
   new CopyWebpackPlugin([
     { from: paths.locales, to: 'client/locales' },
     { from: paths.favicon, to: 'client/assets' }
@@ -82,25 +74,16 @@ if (IS_DEVELOPMENT) {
     new webpack.HotModuleReplacementPlugin(),
     // Don't emmit build when there was an error while compiling
     // No assets are emitted that include errors
-    new webpack.NoEmitOnErrorsPlugin(),
-    // Webpack dashboard plugin
-    new DashboardPlugin()
+    new webpack.NoEmitOnErrorsPlugin()
   );
-
-  // In development we add 'react-hot-loader' for .js/.jsx files
-  // Check rules in config.js
-  rules[0].use.unshift('react-hot-loader/webpack');
-  entries = entries.map(item => {
-    item.files.unshift('react-hot-loader/patch');
-    return item;
-  });
 }
 
 // Webpack config
 module.exports = {
+  mode: IS_DEVELOPMENT ? 'development' : 'production',
   devtool: IS_PRODUCTION ? false : 'cheap-eval-source-map',
   context: paths.javascript,
-  watch: !IS_PRODUCTION,
+  watch: IS_DEVELOPMENT,
   entry: buildEntry(),
   output: {
     path: paths.build,
@@ -112,5 +95,22 @@ module.exports = {
   },
   resolve,
   plugins,
-  devServer
+  devServer,
+  optimization: {
+    usedExports: true,
+    // Minification
+    minimize: IS_PRODUCTION,
+    // Creates vendor chunk from modules coming from node_modules folder
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          chunks: 'initial',
+          test: path.resolve(__dirname, 'node_modules'),
+          name: 'vendor',
+          filename: outputFiles.vendor,
+          enforce: true
+        }
+      }
+    }
+  }
 };
