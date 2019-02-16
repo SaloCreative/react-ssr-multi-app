@@ -1,7 +1,8 @@
 const webpack = require('webpack');
 const path = require('path');
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const packageFile = require('../package.json');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
 
 const paths = {
@@ -30,42 +31,24 @@ const IS_STAGING = NODE_ENV === 'staging';
 // Shared plugins
 const plugins = [
   // Extracts CSS to a file
-  new ExtractTextPlugin(outputFiles.css),
+  new MiniCssExtractPlugin({
+    filename: outputFiles.css
+  }),
   // Injects env variables to our app
   new webpack.DefinePlugin({
     'process.env': {
       NODE_ENV: JSON.stringify(NODE_ENV),
       SERVER_RENDER: JSON.stringify(SERVER_RENDER) === 'true'
+    },
+    'webpackVars': {
+      VERSION: JSON.stringify(packageFile.codename)
     }
   })
 ];
 
-if (IS_PRODUCTION || IS_STAGING) {
-  // Shared production plugins
-  plugins.push(new webpack.optimize.UglifyJsPlugin({
-    compress: {
-      comparisons: true,
-      conditionals: true,
-      dead_code: true,
-      drop_console: !SERVER_RENDER, // Keep server logs
-      drop_debugger: true,
-      evaluate: true,
-      if_return: true,
-      join_vars: true,
-      screw_ie8: true,
-      sequences: true,
-      unused: true,
-      warnings: false
-    },
-    output: {
-      comments: false
-    }
-  }));
-} else {
+if (IS_DEVELOPMENT) {
   // Shared development plugins
-  plugins.push(
-    // Enables pretty names instead of index
-    new webpack.NamedModulesPlugin());
+  plugins.push(new webpack.NamedModulesPlugin()); // Enables pretty names instead of index
 }
 
 // ----------
@@ -75,7 +58,6 @@ if (IS_PRODUCTION || IS_STAGING) {
 // Shared rules
 const rules = [
   // Babel loader without react hot loader
-  // react-hot-loader will is added in webpack.config.js for development only
   {
     test: /\.(js|jsx)$/,
     exclude: /node_modules/,
@@ -172,9 +154,10 @@ const getSassRule = () => {
   if (IS_PRODUCTION || IS_STAGING || SERVER_RENDER) {
     return {
       test: /\.scss$/,
-      loader: ExtractTextPlugin.extract({
-        use: sassLoaders
-      })
+      use: [
+        MiniCssExtractPlugin.loader,
+        ...sassLoaders
+      ]
     };
   }
 
@@ -204,6 +187,23 @@ const resolve = {
   ]
 };
 
+// ----------
+// CLI STATS
+// ----------
+
+const stats = {
+  colors: true,
+  assets: true,
+  children: false,
+  chunks: false,
+  hash: false,
+  modules: false,
+  publicPath: false,
+  timings: true,
+  version: false,
+  warnings: true
+};
+
 module.exports = {
   outputFiles,
   paths,
@@ -213,5 +213,6 @@ module.exports = {
   IS_DEVELOPMENT,
   IS_PRODUCTION,
   NODE_ENV,
-  SERVER_RENDER
+  SERVER_RENDER,
+  stats
 };

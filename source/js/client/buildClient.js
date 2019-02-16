@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { AppContainer } from 'react-hot-loader';
 import { I18nextProvider } from 'react-i18next'; // as we build ourself via webpack
 import { ApolloProvider } from 'react-apollo';
 import Cookies from 'universal-cookie';
@@ -17,7 +16,7 @@ import { ENV, buildI18nStore } from '../helpers';
 import '../../scss/app.scss';
 
 // Defined by webpack.
-const version = VERSION;
+const version = webpackVars.VERSION; // eslint-disable-line no-undef
 
 // Ensure latest version.
 if (localStorage) {
@@ -26,41 +25,36 @@ if (localStorage) {
     try {
       localStorage.setItem('version', version);
     } catch (e) {
-      console && console.log('could not set version into localStorage');
+      console && console.log('could not set version into localStorage'); // eslint-disable-line
     }
   }
 }
 
-const renderApp = ({
-  appName, Client, apollo
-}) => {
-  // Don't render if the page URL is for a different app (eg: npm start of multi app structure)
+const renderApp = ({ appName, apollo, Client }) => {
+  // Force no render for npm start of multi app structure
+  let RENDER = true;
   if (ENV === 'development') {
-    const urlAppName = window.location.pathname.replace(/^\/+/g, '').split('/')[1]; // offset to account for language param
-    if (urlAppName !== appName) {
-      return null;
-    }
+    RENDER = window.location.pathname.replace(/^\/+/g, '').split('/')[1] === appName; // offset to account for language param
   }
+  if (!RENDER && appName !== 'dashboard') return null;
 
   // Create i18n instance
   const i18n = createi18nInstance(appName);
   const locale = window.__i18n ? window.__i18n.locale : 'en'; // eslint-disable-line
-
+  
   const cookies = new Cookies();
   const tokens = getTokensClient(cookies);
 
   return ReactDOM.hydrate(
     <ApolloProvider client={ apollo }>
       <AuthProvider tokens={ tokens }>
-        <AppContainer warnings={ false }>
-          <I18nextProvider
-            i18n={ i18n }
-            initialI18nStore={ buildI18nStore(appName) }
-            initialLanguage={ locale }
-          >
-            <Client />
-          </I18nextProvider>
-        </AppContainer>
+        <I18nextProvider
+          i18n={ i18n }
+          initialI18nStore={ buildI18nStore(appName) }
+          initialLanguage={ locale }
+        >
+          <Client />
+        </I18nextProvider>
       </AuthProvider>
     </ApolloProvider>,
     document.getElementById('root')

@@ -2,7 +2,13 @@
   "extends": "eslint-config-airbnb",
   "parser": "babel-eslint",
   "settings": {
-    "ecmascript": 9
+    "ecmascript": 6,
+    "react": {
+      "version": "16.4"
+    }
+  },
+  "globals": {
+    "webpackVars": true
   },
   "parserOptions": {
     "ecmaFeatures": {
@@ -16,8 +22,7 @@
     }
   },
   "env": {
-    "browser": true,
-    "es6": true
+    "browser": true
   },
   "rules": {
     "jsx-a11y/img-has-alt": "off",
@@ -31,6 +36,7 @@
     "no-plusplus": 0,
     "no-return-assign": 0,
     "quote-props": 0,
+    "camelcase": 1,
     "template-curly-spacing": [
       2,
       "always"
@@ -61,11 +67,13 @@
     "react/jsx-filename-extension": 0,
     "react/jsx-boolean-value": 0,
     "react/prefer-stateless-function": 0,
+    "react/no-deprecated": 1,
     "import/extensions": 0,
     "import/no-extraneous-dependencies": 0,
     "import/no-unresolved": 0,
     "import/prefer-default-export": 0,
     "jsx-a11y/href-no-hash": "off",
-    "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }]
+    "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }],
+    "react/no-direct-mutation-state": 1
   }
 }

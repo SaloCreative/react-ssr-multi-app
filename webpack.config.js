@@ -4,7 +4,6 @@ const entryPoints = [
 
 const webpack = require('webpack');
 const path = require('path');
-const DashboardPlugin = require('webpack-dashboard/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
@@ -19,10 +18,9 @@ const {
   IS_DEVELOPMENT
 } = require('./webpack/config');
 const { devServer } = require('./webpack/dev-server');
-const packageFile = require('./package.json');
 
 // Default client app entry files
-let entries = entryPoints.map(app => {
+const entries = entryPoints.map(app => {
   return {
     app,
     files: [
@@ -50,15 +48,6 @@ plugins.push(
     // set the current working directory for displaying module paths
     cwd: process.cwd()
   }),
-  // Creates vendor chunk from modules coming from node_modules folder
-  new webpack.optimize.CommonsChunkPlugin({
-    name: 'vendor',
-    filename: outputFiles.vendor,
-    minChunks(module) {
-      const { context } = module;
-      return context && context.indexOf('node_modules') >= 0;
-    }
-  }),
   // Builds index.html from template
   new HtmlWebpackPlugin({
     template: path.join(paths.source, 'index.html'),
@@ -71,9 +60,6 @@ plugins.push(
       removeComments: true,
       useShortDoctype: true
     }
-  }),
-  new webpack.DefinePlugin({
-    VERSION: JSON.stringify(packageFile.codename)
   }),
   new CopyWebpackPlugin([
     { from: paths.locales, to: 'client/locales' },
@@ -88,22 +74,13 @@ if (IS_DEVELOPMENT) {
     new webpack.HotModuleReplacementPlugin(),
     // Don't emmit build when there was an error while compiling
     // No assets are emitted that include errors
-    new webpack.NoEmitOnErrorsPlugin(),
-    // Webpack dashboard plugin
-    new DashboardPlugin()
+    new webpack.NoEmitOnErrorsPlugin()
   );
-
-  // In development we add 'react-hot-loader' for .js/.jsx files
-  // Check rules in config.js
-  rules[0].use.unshift('react-hot-loader/webpack');
-  entries = entries.map(item => {
-    item.files.unshift('react-hot-loader/patch');
-    return item;
-  });
 }
 
 // Webpack config
 module.exports = {
+  mode: IS_DEVELOPMENT ? 'development' : 'production',
   devtool: IS_PRODUCTION ? false : 'cheap-eval-source-map',
   context: paths.javascript,
   watch: IS_DEVELOPMENT,
@@ -118,5 +95,22 @@ module.exports = {
   },
   resolve,
   plugins,
-  devServer
+  devServer,
+  optimization: {
+    usedExports: true,
+    // Minification
+    minimize: IS_PRODUCTION,
+    // Creates vendor chunk from modules coming from node_modules folder
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          chunks: 'initial',
+          test: path.resolve(__dirname, 'node_modules'),
+          name: 'vendor',
+          filename: outputFiles.vendor,
+          enforce: true
+        }
+      }
+    }
+  }
 };

@@ -8,12 +8,12 @@ const { IS_DEVELOPMENT } = require('./webpack/config');
 
 // Webpack config
 const config = {
+  mode: IS_DEVELOPMENT ? 'development' : 'production',
   target: 'node',
   watch: IS_DEVELOPMENT,
   devtool: IS_DEVELOPMENT ? 'source-map' : false,
   context: paths.javascript,
   entry: [
-    '@babel/polyfill',
     './app.js'
   ],
   output: {

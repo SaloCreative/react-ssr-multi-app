@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import { translate } from 'react-i18next';
+import { withNamespaces } from 'react-i18next';
 import styled from 'styled-components';
 
 // COMPONENTS
@@ -69,4 +69,4 @@ Menu.propTypes = {
   t: PropTypes.func.isRequired
 };
 
-export default translate(['common'])(Menu);
+export default withNamespaces(['common'])(Menu);

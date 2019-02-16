@@ -1,4 +1,4 @@
-const { paths, IS_DEVELOPMENT } = require('./config');
+const { paths, IS_DEVELOPMENT, stats } = require('./config');
 
 const devServer = {
   contentBase: !IS_DEVELOPMENT ? paths.build : paths.source,
@@ -10,18 +10,7 @@ const devServer = {
   host: IS_DEVELOPMENT ? 'localhost' : '0.0.0.0',
   disableHostCheck: true, // To enable local network testing
   overlay: true,
-  stats: {
-    assets: true,
-    children: false,
-    chunks: false,
-    hash: false,
-    modules: false,
-    publicPath: false,
-    timings: true,
-    version: false,
-    warnings: true,
-    colors: true
-  }
+  stats
 };
 
 module.exports = {

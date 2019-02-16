@@ -1,5 +1,6 @@
-import buildClient from '../../client/buildApolloClient';
+import buildClient from '../../client/buildClient';
 import { apollo } from '../../apollo';
+
 import AppConfig from './config';
 import Client from './routes/app/client';
 
@@ -9,11 +10,3 @@ buildClient({
   Client,
   apollo: apollo(AppConfig.GraphQLUrl)
 });
-
-if (module.hot) {
-  module.hot.accept('./routes/app/client', buildClient({
-    appName: AppConfig.name,
-    Client,
-    apollo: apollo(AppConfig.GraphQLUrl)
-  }));
-}

@@ -40,11 +40,6 @@
         "@babel/preset-env",
         "@babel/react"
       ]
-    },
-    "development": {
-      "plugins": [
-        "react-hot-loader/babel"
-      ]
     }
   }
 }

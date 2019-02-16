@@ -1,5 +1,5 @@
 import React from 'react';
-import { translate } from 'react-i18next';
+import { withNamespaces } from 'react-i18next';
 import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 
@@ -28,4 +28,4 @@ NotFound.propTypes = {
   t: PropTypes.func.isRequired
 };
 
-export default Page(translate(['common'])(NotFound));
+export default Page(withNamespaces(['common'])(NotFound));

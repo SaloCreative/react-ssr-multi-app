@@ -10,7 +10,7 @@ const createi18nInstance = (namespace) => {
     .init({
       fallbackLng: 'en',
       react: {
-        wait: true // globally set to wait for loaded translations in translate hoc
+        wait: true // globally set to wait for loaded translations in withNamespaces hoc
       },
 
       // have a common namespace used around the full app
@@ -36,7 +36,7 @@ const createi18nInstance = (namespace) => {
       interpolation: {
         escapeValue: false, // not needed for react!!
         formatSeparator: ',',
-        format(value, format, lng) {
+        format(value, format) {
           if (format === 'uppercase') return value.toUpperCase();
           return value;
         }
