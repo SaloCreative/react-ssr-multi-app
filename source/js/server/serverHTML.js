@@ -4,6 +4,23 @@ import PropTypes from 'prop-types';
 import serialize from 'serialize-javascript';
 
 import { outputFiles } from '../../../webpack/output-files';
+import { ENV } from '../helpers';
+
+const RenderWarning = () => (
+  <script
+    dangerouslySetInnerHTML={ {
+      __html: 'console.error(\'🚨 Error rendering react on server 🚨. Page loaded without SSR\')'
+    } }
+  />
+);
+
+const ApolloWarning = () => (
+  <script
+    dangerouslySetInnerHTML={ {
+      __html: 'console.error(\'🚨 Apollo error on server 🚨. Page loaded without Apollo data\')'
+    } }
+  />
+);
 
 const ServerHtml = ({
   appHtml, state, helmet, styles, i18n, appName
@@ -12,9 +29,11 @@ const ServerHtml = ({
     <head>
       <meta charSet='utf-8' />
       <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0' />
-
+      <meta name='format-detection' content='telephone=no' />
+      <meta httpEquiv='Accept-CH' content='DPR, Viewport-Width, Width' />
       { helmet.title.toComponent() }
       { helmet.meta.toComponent() }
+      { helmet.style.toComponent() }
       { styles.getStyleElement() }
       <link rel='shortcut icon' type='image/png' href={ `/${ outputFiles.favicon }` } />
       <link rel='stylesheet' href={ `/${ outputFiles.css }` } />
@@ -24,10 +43,12 @@ const ServerHtml = ({
         id='root'
         dangerouslySetInnerHTML={ { __html: appHtml } } // eslint-disable-line
       />
+      { !appHtml && <RenderWarning /> }
       <script
         type='text/javascript'
-        dangerouslySetInnerHTML={ { __html: `window.__SALO_CREATIVE_STATE__=${ state };` } } // eslint-disable-line
+        dangerouslySetInnerHTML={ { __html: `window.__APOLLO_STATE__=${ state };` } } // eslint-disable-line
       />
+      { state === '{}' && ENV === 'development' && <ApolloWarning /> }
       <script
         charSet='UTF-8'
         dangerouslySetInnerHTML={ { __html: `window.__i18n=${ serialize(i18n) };` } } // eslint-disable-line

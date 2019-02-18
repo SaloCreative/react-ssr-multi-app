@@ -39,7 +39,7 @@ const apollo = (GraphQLUrl) => new ApolloClient({
     createUploadLink(OPTS(GraphQLUrl)),
     new BatchHttpLink(OPTS(GraphQLUrl))
   )),
-  cache: new InMemoryCache().restore(window.__SALO_CREATIVE_STATE__)
+  cache: new InMemoryCache().restore(window.__APOLLO_STATE__) // eslint-disable-line no-underscore-dangle
 });
 
 export default apollo;

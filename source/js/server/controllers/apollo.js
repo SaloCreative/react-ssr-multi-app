@@ -2,7 +2,7 @@ import { matchRoutes } from 'react-router-config';
 
 // Server functions
 import { getLocaleParams } from '../../helpers/server';
-import RenderApollo from '../renderApollo';
+import Render from '../render';
 
 // ============================== //
 // ==== APP SPECIFIC IMPORTS ==== //
@@ -23,7 +23,7 @@ const showApp = (req, res) => {
   const { locale } = getLocaleParams(req.language, branch);
 
   // RENDER FUNCTION
-  return RenderApollo({
+  return Render({
     res, App, locale, url: req.url, appName: 'apollo', tokens: req.tokens
   });
 };
