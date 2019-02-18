@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // COMPONENT
-import { Consumer as AuthConsumer } from '../context';
+import { AuthConsumer } from '../../../contexts/auth';
 
 class AuthWrapper extends React.Component {
   render() {

@@ -2,70 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { withNamespaces } from 'react-i18next';
-import { Query } from 'react-apollo';
 import { Consumer as AlertsConsumer } from '@salocreative/alerts';
 
 // COMPONENTS
 import Page from '../../containers/hoc/page';
-import { H1, H2, Button } from '../../../../components';
-import { AuthWrapper, Consumer as AuthConsumer } from '../../../../auth';
+import { H1, Button, AuthWrapper } from '../../../../components';
+import { AuthConsumer } from '../../../../contexts/auth';
 
-// QUERIES
-import GET_POST from '../../queries/demo/getPost';
-import GET_USERS from '../../queries/demo/getUsers';
+const mockUser = {
+  id: '1234',
+  first_name: 'Rich',
+  last_name: 'Comber',
+  language: 'en',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
+  roles: [1, 2, 3, 4]
+};
 
 class Home extends React.Component {
-  renderContent() {
-    return (
-      <Query
-        query={ GET_POST }
-        variables={ { id: 1 } }
-      >
-        { ({ loading, error, data }) => {
-              if (loading) return <p>Fetching</p>;
-              if (error) return `${ error }`;
-              return (
-                <React.Fragment>
-                  <H2>{ data.post.title }</H2>
-                  <p>{ data.post.body }</p>
-                </React.Fragment>
-              );
-            } }
-      </Query>
-    );
-  }
-
-  renderUsers() {
-    return (
-      <table width='100%'>
-        <thead>
-          <tr>
-            <th>id</th>
-            <th>Name</th>
-            <th>Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          <Query
-            query={ GET_USERS }
-          >
-            { ({ loading, error, data }) => {
-            if (loading) return <tr><td colSpan={ 3 }>Fetching</td></tr>;
-            if (error) return `${ error }`;
-            return data.users.map((user) => (
-              <tr key={ user.id }>
-                <td>{ user.id }</td>
-                <td>{ user.name }</td>
-                <td>{ user.email }</td>
-              </tr>
-              ));
-            } }
-          </Query>
-        </tbody>
-      </table>
-    );
-  }
-
   render() {
     const { t } = this.props;
     return (
@@ -96,7 +49,7 @@ class Home extends React.Component {
               <React.Fragment>
                 <AuthWrapper authenticated={ false }>
                   <Button
-                    onClick={ () => login() }
+                    onClick={ () => login(mockUser) }
                     fullWidth
                   >Login
                   </Button>
@@ -112,8 +65,6 @@ class Home extends React.Component {
             );
           } }
           </AuthConsumer>
-          { this.renderContent() }
-          { this.renderUsers() }
         </div>
       </React.Fragment>
     );

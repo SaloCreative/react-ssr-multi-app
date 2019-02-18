@@ -4,10 +4,10 @@ import { isEmpty, intersection } from 'lodash';
 import Cookies from 'universal-cookie';
 
 // COMPONENTS
-import { Provider } from './index';
+import { Provider } from './context';
 
 // HELPERS
-import { mapCookieToState } from '../helpers/tokens';
+import { mapCookieToState } from '../../helpers';
 
 const cookies = new Cookies();
 const cookieDomain = 'localhost';
@@ -15,20 +15,20 @@ const cookieDomain = 'localhost';
 export default class AuthProvider extends React.Component {
   constructor(props) {
     super(props);
-    this.login = () => {
+    this.login = (login) => {
       const jwt = {
-        i: 3,
-        lng: 'en',
-        t: 'jwt.token.io',
+        i: login.id,
+        lng: login.language,
+        t: login.token,
         ts: Date.now()
       };
       const user = {
         u: {
-          fn: 'Rich',
-          ln: 'Comber',
-          avatar: 'https://image.com/image.jpg'
+          fn: login.first_name,
+          ln: login.last_name,
+          avatar: ''
         },
-        r: [1, 2, 3, 4, 5]
+        r: login.roles
       };
       const stateData = mapCookieToState({ jwt, user });
       this.setState({ user: stateData.user, jwt: stateData.jwt, loggedOut: false });
@@ -51,9 +51,9 @@ export default class AuthProvider extends React.Component {
       return false;
     };
     this.logout = () => {
-      this.setState({ user: {}, jwt: {}, loggedOut: true });
       cookies.remove('jwt', { path: '/', domain: cookieDomain });
       cookies.remove('user', { path: '/', domain: cookieDomain });
+      window.location.reload();
     };
 
     // MAP TOKENS TO PROPS IF AVAILABLE

@@ -6,11 +6,11 @@ import Cookies from 'universal-cookie';
 import 'isomorphic-fetch';
 
 // COMPONENTS
-import { AuthProvider, getTokensClient } from '../auth';
+import { AuthProvider } from '../contexts/auth';
 
 // HELPERS
 import createi18nInstance from './i18n'; // initialised i18next instances
-import { ENV, buildI18nStore } from '../helpers';
+import { ENV, buildI18nStore, getTokensClient } from '../helpers';
 
 // Load SCSS
 import '../../scss/app.scss';

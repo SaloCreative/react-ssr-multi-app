@@ -1,9 +1,9 @@
 import React from 'react';
 import { Switch } from 'react-router-dom';
-import { AuthRoute } from '../../auth';
+import AuthRoute from '../authRoute';
 
 // Route Component
-export default function renderRoutes(props, routesConfig, language) {
+const renderRoutes = (props, routesConfig, language) => {
   return (
     <Switch>
       { routesConfig.map(route => (
@@ -23,4 +23,6 @@ export default function renderRoutes(props, routesConfig, language) {
       )) }
     </Switch>
   );
-}
+};
+
+export default renderRoutes;

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Redirect, Route } from 'react-router-dom';
 
 // COMPONENTS
-import { Consumer as AuthConsumer } from '../context';
-import ExternalRedirect from './externalRedirect';
+import { AuthConsumer } from '../../../contexts/auth';
+import ExternalRedirect from '../externalRedirect';
 
 class AuthRoute extends React.Component {
   evaluateCanAccess(isLoggedIn, hasPermissions) {

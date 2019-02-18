@@ -1,10 +1,10 @@
-import { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 // HELPERS
-import { isBrowser } from '../../helpers';
+import { isBrowser } from '../../../helpers';
 
-export default class ExternalRedirect extends Component {
+export default class ExternalRedirect extends React.Component {
   constructor(props) {
     super(props);
     if (isBrowser) {
