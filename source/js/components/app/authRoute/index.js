@@ -1,10 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, Route } from 'react-router-dom';
+import Transition from 'react-transition-group/Transition';
+import styled from 'styled-components';
 
 // COMPONENTS
 import { AuthConsumer } from '../../../contexts/auth';
 import ExternalRedirect from '../externalRedirect';
+// import Login from '../../../pages/login';
+
+// LOGIN ANIMATION
+const duration = 1800;
+
+const LoginFadeWrapper = styled.div`
+  opacity: ${ ({ state }) => (state === 'entered' || state === 'entering' ? 1 : 0) };
+  transition: opacity ${ duration / 3 }ms ease-in-out;
+  transition-delay: ${ (duration / 3) * 2 }ms;
+`;
 
 class AuthRoute extends React.Component {
   evaluateCanAccess(isLoggedIn, hasPermissions) {
@@ -12,6 +24,10 @@ class AuthRoute extends React.Component {
     // .Deal with public routes or routes requiring users to not be logged in first
     if ((notAuthenticated && !isLoggedIn) || (!notAuthenticated && !authenticated)) {
       return true;
+    }
+    // Check if route requires user to not be logged in
+    if (notAuthenticated && isLoggedIn) {
+      return false;
     }
     // At this stage we know we are dealing with a route that needs login
     if (!isLoggedIn) return false; // bail if not a logged in user
@@ -21,18 +37,26 @@ class AuthRoute extends React.Component {
     return true;
   }
 
-  evaluateRedirect(isLoggedIn) {
-    const { authenticated, redirect, language } = this.props;
-    if (authenticated && !isLoggedIn) {
-      // If require logged in user and not logged in load login component
-      return '/login';
-    }
+  evaluateRedirect() {
+    const { redirect, language } = this.props;
     return redirect.replace(':language', language);
   }
 
-  renderRedirect(isLoggedIn) {
+  shouldRenderLogin = (isLoggedIn) => {
+    const { authenticated, loginRedirect } = this.props;
+    // If not logged in show the login component
+    return authenticated && !loginRedirect && !isLoggedIn;
+  }
+
+  renderRedirect({ showLogin, canAccess }) {
     const { path, exact, ignoreScrollBehavior } = this.props;
-    const redirect = this.evaluateRedirect(isLoggedIn);
+    // If not logged in show the login component
+    // if (authenticated && !loginRedirect && (!isLoggedIn || hasLoggedIn)) {
+    //   return <Login callback={ this.onLogin } />;
+    // }
+    // Don't try and redirect if we are showing login or user has access
+    if (showLogin || canAccess) return null;
+    const redirect = this.evaluateRedirect();
     return (
       <Route
         exact={ exact }
@@ -48,31 +72,54 @@ class AuthRoute extends React.Component {
     );
   }
 
-  render() {
+  renderRoute = ({ canAccess }) => {
     const {
       component: ComposedComponent, path, title, componentProps, exact, ignoreScrollBehavior
     } = this.props;
+    if (canAccess) {
+      return (
+        <Route
+          exact={ exact }
+          path={ path }
+          ignoreScrollBehavior={ ignoreScrollBehavior }
+          render={ (props) => (
+            <ComposedComponent
+              title={ title }
+              { ...componentProps }
+              match={ props.match }
+            />
+          ) }
+        />
+      );
+    }
+    return null;
+  }
+
+  render() {
     return (
       <AuthConsumer>
         { ({ loggedIn, hasPermissions }) => {
           const isLoggedIn = loggedIn();
           const canAccess = this.evaluateCanAccess(isLoggedIn, hasPermissions);
-          if (canAccess) {
-            return (
-              <Route
-                exact={ exact }
-                path={ path }
-                ignoreScrollBehavior={ ignoreScrollBehavior }
-                render={ (props) =>
-                  (<ComposedComponent
-                    pageTitle={ title }
-                    { ...componentProps }
-                    match={ props.match } // Makes sure context of THIS route is passed in
-                  />) }
-              />
-            );
-          }
-          return this.renderRedirect(isLoggedIn);
+          const showLogin = this.shouldRenderLogin(isLoggedIn);
+          return (
+            <React.Fragment>
+              { this.renderRoute({ canAccess }) }
+              <Transition
+                in={ showLogin }
+                timeout={ duration }
+                unmountOnExit
+              >
+                { state => (
+                  <LoginFadeWrapper state={ state }>
+                    Hey
+                  </LoginFadeWrapper>
+                  )
+                }
+              </Transition>
+              { this.renderRedirect({ showLogin, canAccess }) }
+            </React.Fragment>
+          );
       } }
       </AuthConsumer>
     );
@@ -83,14 +130,15 @@ AuthRoute.defaultProps = {
   permissions: [],
   authenticated: true, // If false the route will allow all users to access
   notAuthenticated: false, // If true the route requires user to be not logged in
-  redirect: '/404-error',
+  redirect: '/en/404-error',
   exact: false,
   ignoreScrollBehavior: false,
-  language: ''
+  language: '',
+  loginRedirect: false
 };
 
 AuthRoute.propTypes = {
-  component: PropTypes.func.isRequired,
+  component: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
   path: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   componentProps: PropTypes.object.isRequired,
@@ -100,7 +148,8 @@ AuthRoute.propTypes = {
   redirect: PropTypes.string,
   exact: PropTypes.bool,
   ignoreScrollBehavior: PropTypes.bool,
-  language: PropTypes.string
+  language: PropTypes.string,
+  loginRedirect: PropTypes.bool
 };
 
 export default AuthRoute;

@@ -48,11 +48,11 @@ export default function Page(ComposedComponent) {
     }
 
     componentDidMount() {
-      const { path } = this.props.match;
+      const { match: { path } } = this.props;
       const { languageValid } = this.state;
       if (!languageValid) {
         const url = path.replace(':language', 'en');
-        history.push(url);
+        window.location.href = url;
       }
     }
     
