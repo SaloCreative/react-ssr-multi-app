@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { withNamespaces } from 'react-i18next';
-import { Consumer as AlertsConsumer } from '@salocreative/alerts';
 
 // COMPONENTS
 import Page from '../../containers/hoc/page';
@@ -28,21 +27,6 @@ class Home extends React.Component {
         </Helmet>
         <div>
           <H1>{ t('HOME') }</H1>
-          <AlertsConsumer>
-            { ({ insertAlert }) => {
-              return (
-                <Button
-                  onClick={ () => insertAlert({
-                    type: 'succes',
-                    message: 'My alert message was added',
-                    time: 20
-                  }) }
-                  fullWidth
-                >Add an alert
-                </Button>
-              );
-            } }
-          </AlertsConsumer>
           <AuthConsumer>
             { ({ login, logout }) => {
             return (

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { withNamespaces, NamespacesConsumer } from 'react-i18next';
 import styled from 'styled-components';
-import { AlertProvider, AlertConsumer } from '@salocreative/alerts';
+
 // COMPONENTS
 import { Container } from '../../../../components';
 import Menu from '../../../../components/app/menu';
@@ -42,10 +42,7 @@ class App extends React.Component {
                 language={ i18n.language }
               />
               <Container>
-                <AlertProvider>
-                  <AlertConsumer topOffset={ 0 } />
-                  { renderRoutes(this.props, routesConfig, i18n.language) }
-                </AlertProvider>
+                { renderRoutes(this.props, routesConfig, i18n.language) }
               </Container>
             </React.Fragment>
           ) }
