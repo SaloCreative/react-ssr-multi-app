@@ -1,14 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
-import Cookies from 'universal-cookie';
 import 'isomorphic-fetch';
 
-// COMPONENTS
-import { AuthProvider } from '../contexts/auth';
-
 // HELPERS
-import { ENV, getTokensClient } from '../helpers';
+import { ENV } from '../helpers';
 
 // Defined by webpack.
 const version = webpackVars.VERSION; // eslint-disable-line no-undef
@@ -33,14 +29,9 @@ const renderApp = ({ appName, apollo, Client }) => {
   }
   if (!RENDER && appName !== 'dashboard') return null;
 
-  const cookies = new Cookies();
-  const tokens = getTokensClient(cookies);
-
   return ReactDOM.hydrate(
     <ApolloProvider client={ apollo }>
-      <AuthProvider tokens={ tokens }>
-        <Client />
-      </AuthProvider>
+      <Client />
     </ApolloProvider>,
     document.getElementById('root')
   );

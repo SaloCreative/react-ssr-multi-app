@@ -13,7 +13,6 @@ import fetch from 'node-fetch';
 // COMPONENTS
 import getServerHtml from './serverHTML';
 import Server from './server';
-import { AuthProvider } from '../contexts/auth';
 import FiveHundred from '../../assets/pages/500.html';
 
 // HELPERS
@@ -87,11 +86,9 @@ export default async ({
   const sheet = new ServerStyleSheet();
   const AppHtml = (
     <ApolloProvider client={ apolloClient }>
-      <AuthProvider tokens={ tokens }>
-        <StyleSheetManager sheet={ sheet.instance }>
-          <Server location={ url } context={ context } AppContainer={ App } />
-        </StyleSheetManager>
-      </AuthProvider>
+      <StyleSheetManager sheet={ sheet.instance }>
+        <Server location={ url } context={ context } AppContainer={ App } />
+      </StyleSheetManager>
     </ApolloProvider>
   );
 
@@ -120,6 +117,7 @@ export default async ({
     // We're good, send the response
     return res.status(context.status || 200).send(serverHtml);
   } catch (e) {
+    console.log(e);
     return res.status(500).send(FiveHundred);
   }
 };

@@ -1,24 +1,23 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
-import AuthRoute from '../authRoute';
+import { Switch, Route } from 'react-router-dom';
 
 // Route Component
-const renderRoutes = (props, routesConfig, language) => {
+const renderRoutes = (componentProps, routesConfig, language) => {
   return (
     <Switch>
       { routesConfig.map(route => (
-        <AuthRoute
-          language={ language }
-          exact={ route.exact }
+        <Route
           key={ route.path }
+          exact={ route.exact }
           path={ route.path }
-          componentProps={ props }
-          title={ route.title }
-          component={ route.component }
-          authenticated={ route.authenticated }
-          notAuthenticated={ route.notAuthenticated }
-          permissions={ route.permissions ? route.permissions : [] }
-          redirect={ route.redirect ? route.redirect : '/404' }
+          ignoreScrollBehavior={ false }
+          render={ (props) => (
+            <route.component
+              title={ route.title }
+              { ...componentProps }
+              match={ props.match }
+            />
+          ) }
         />
       )) }
     </Switch>

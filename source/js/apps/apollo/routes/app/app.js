@@ -4,15 +4,12 @@ import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 
 // COMPONENTS
-import { Container } from '../../../../components';
-import Menu from '../../../../components/app/menu';
 import Normalise from '../../../../components/app/normalise';
 import GlobalStyles from '../../../../components/app/globals';
 
 // HELPERS
 import renderRoutes from '../../../../components/app/renderRoutes';
 import routesConfig from '../index';
-import { HOME, WHOOPS, AUTHENTICATED_ROUTE } from '../../config/pages';
 
 const AppWrapper = styled.div`
   font-size: 1.8rem;
@@ -33,17 +30,7 @@ class App extends React.Component {
         <Normalise />
         <GlobalStyles />
         <Helmet titleTemplate='%s | Salo Creative' />
-        <Menu
-          routes={ {
-            HOME,
-            AUTHENTICATED_ROUTE,
-            WHOOPS
-          } }
-          language='en'
-        />
-        <Container>
-          { renderRoutes(this.props, routesConfig, 'en') }
-        </Container>
+        { renderRoutes(this.props, routesConfig, 'en') }
       </AppWrapper>
     );
   }

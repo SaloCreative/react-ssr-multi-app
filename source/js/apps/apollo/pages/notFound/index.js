@@ -7,7 +7,6 @@ import Page from '../../containers/hoc/page';
 
 class NotFound extends React.Component {
   render() {
-
     return ([
       <Helmet key='helmet'>
         <title>{ 'T => 404' }</title>

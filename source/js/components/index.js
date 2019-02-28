@@ -1,7 +1,4 @@
 // APP
-export { default as AuthWrapper } from './app/authWrapper';
-export { default as ExternalRedirect } from './app/externalRedirect';
-export { default as AuthRoute } from './app/authRoute';
 
 // ATOMS
 export { default as Container } from './atoms/container';

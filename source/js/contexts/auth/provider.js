@@ -15,47 +15,6 @@ const cookieDomain = 'localhost';
 export default class AuthProvider extends React.Component {
   constructor(props) {
     super(props);
-    this.login = (login) => {
-      const jwt = {
-        i: login.id,
-        lng: login.language,
-        t: login.token,
-        ts: Date.now()
-      };
-      const user = {
-        u: {
-          fn: login.first_name,
-          ln: login.last_name,
-          avatar: ''
-        },
-        r: login.roles
-      };
-      const stateData = mapCookieToState({ jwt, user });
-      this.setState({ user: stateData.user, jwt: stateData.jwt, loggedOut: false });
-      cookies.set('jwt', JSON.stringify(jwt), { path: '/', domain: cookieDomain });
-      cookies.set('user', JSON.stringify(user), { path: '/', domain: cookieDomain });
-    };
-    this.loggedIn = () => {
-      return !isEmpty(this.state.jwt);
-    };
-    this.hasPermissions = (permissions) => {
-      // First check the user is logged in
-      if (!isEmpty(this.state.jwt)) {
-        if (permissions && permissions.length) {
-          const userPermissions = this.state.jwt.roles || [];
-          const match = intersection(userPermissions, permissions);
-          return match && !!match.length;
-        }
-        return true;
-      }
-      return false;
-    };
-    this.logout = () => {
-      cookies.remove('jwt', { path: '/', domain: cookieDomain });
-      cookies.remove('user', { path: '/', domain: cookieDomain });
-      window.location.reload();
-    };
-
     // MAP TOKENS TO PROPS IF AVAILABLE
     const { tokens } = props;
     let stateData = { user: {}, jwt: {} };
@@ -65,11 +24,7 @@ export default class AuthProvider extends React.Component {
     this.state = {
       user: stateData.user,
       jwt: stateData.jwt,
-      loggedOut: false,
-      login: this.login,
-      logout: this.logout,
-      loggedIn: this.loggedIn,
-      hasPermissions: this.hasPermissions
+      loggedOut: false
     };
   }
 
@@ -87,15 +42,62 @@ export default class AuthProvider extends React.Component {
     return null;
   }
 
+  login = (login) => {
+    const jwt = {
+      i: login.id,
+      lng: login.language,
+      t: login.token,
+      ts: Date.now()
+    };
+    const user = {
+      u: {
+        fn: login.first_name,
+        ln: login.last_name,
+        avatar: ''
+      },
+      r: login.roles
+    };
+    const stateData = mapCookieToState({ jwt, user });
+    this.setState({ user: stateData.user, jwt: stateData.jwt, loggedOut: false });
+    cookies.set('jwt', JSON.stringify(jwt), { path: '/', domain: cookieDomain });
+    cookies.set('user', JSON.stringify(user), { path: '/', domain: cookieDomain });
+  }
+
+  loggedIn = () => {
+    return !isEmpty(this.state.jwt);
+  }
+
+  hasPermissions = (permissions) => {
+    // First check the user is logged in
+    if (!isEmpty(this.state.jwt)) {
+      if (permissions && permissions.length) {
+        const userPermissions = this.state.jwt.roles || [];
+        const match = intersection(userPermissions, permissions);
+        return match && !!match.length;
+      }
+      return true;
+    }
+    return false;
+  }
+  
+  logout = () => {
+    cookies.remove('jwt', { path: '/', domain: cookieDomain });
+    cookies.remove('user', { path: '/', domain: cookieDomain });
+    window.location.reload();
+  }
+
   render() {
     const { children } = this.props;
-    const {
-      user, jwt, login, logout, loggedIn, hasPermissions
-    } = this.state;
+    const { user, jwt } = this.state;
     return (
       <Provider
         value={ {
-          user, jwt, login, logout, loggedIn, hasPermissions
+          user,
+          jwt,
+          login: this.login,
+          logout: this.logout,
+          loggedIn: this.loggedIn,
+          hasPermissions: this.hasPermissions
           } }
       >
         { children }
