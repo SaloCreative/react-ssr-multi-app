@@ -1,5 +1,4 @@
 import React from 'react';
-import { withNamespaces } from 'react-i18next';
 import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 
@@ -8,16 +7,14 @@ import Page from '../../containers/hoc/page';
 
 class NotFound extends React.Component {
   render() {
-    const { t } = this.props;
-
     return ([
       <Helmet key='helmet'>
-        <title>{ t('WHOOPS') }</title>
+        <title>{ 'T => WHOOPS' }</title>
       </Helmet>,
       <div key='page' className='error-message'>
         <div className='error-message__container'>
-          <h2 className='error-message__title'>{ t('WHOOPS_TITLE') }</h2>
-          <p className='error-message__text'>{ t('WHOOPS_TEXT') }</p>
+          <h2 className='error-message__title'>{ 'T => WHOOPS_TITLE' }</h2>
+          <p className='error-message__text'>{ 'T => WHOOPS_TEXT' }</p>
         </div>
       </div>
     ]);
@@ -25,7 +22,6 @@ class NotFound extends React.Component {
 }
 
 NotFound.propTypes = {
-  t: PropTypes.func.isRequired
 };
 
-export default Page(withNamespaces(['common'])(NotFound));
+export default Page(NotFound);

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import { withNamespaces } from 'react-i18next';
 
 // COMPONENTS
 import Page from '../../containers/hoc/page';
@@ -19,14 +18,13 @@ const mockUser = {
 
 class Home extends React.Component {
   render() {
-    const { t } = this.props;
     return (
       <React.Fragment>
         <Helmet>
-          <title>{ t('HOME') }</title>
+          <title>{ 'T => HOME' }</title>
         </Helmet>
         <div>
-          <H1>{ t('HOME') }</H1>
+          <H1>{ 'T => HOME' }</H1>
           <AuthConsumer>
             { ({ login, logout }) => {
             return (
@@ -55,8 +53,4 @@ class Home extends React.Component {
   }
 }
 
-Home.propTypes = {
-  t: PropTypes.func.isRequired
-};
-
-export default Page(withNamespaces(['common'])(Home));
+export default Page(Home);

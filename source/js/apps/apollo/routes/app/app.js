@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import { withNamespaces, NamespacesConsumer } from 'react-i18next';
 import styled from 'styled-components';
 
 // COMPONENTS
 import { Container } from '../../../../components';
 import Menu from '../../../../components/app/menu';
+import Normalise from '../../../../components/app/normalise';
+import GlobalStyles from '../../../../components/app/globals';
 
 // HELPERS
 import renderRoutes from '../../../../components/app/renderRoutes';
@@ -29,24 +30,20 @@ class App extends React.Component {
   render() {
     return (
       <AppWrapper>
+        <Normalise />
+        <GlobalStyles />
         <Helmet titleTemplate='%s | Salo Creative' />
-        <NamespacesConsumer>
-          { (t, { i18n }) => (
-            <React.Fragment>
-              <Menu
-                routes={ {
-                  HOME,
-                  AUTHENTICATED_ROUTE,
-                  WHOOPS
-                } }
-                language={ i18n.language }
-              />
-              <Container>
-                { renderRoutes(this.props, routesConfig, i18n.language) }
-              </Container>
-            </React.Fragment>
-          ) }
-        </NamespacesConsumer>
+        <Menu
+          routes={ {
+            HOME,
+            AUTHENTICATED_ROUTE,
+            WHOOPS
+          } }
+          language='en'
+        />
+        <Container>
+          { renderRoutes(this.props, routesConfig, 'en') }
+        </Container>
       </AppWrapper>
     );
   }
@@ -56,4 +53,4 @@ App.propTypes = {
   location: PropTypes.object.isRequired
 };
 
-export default withNamespaces(['common'])(App);
+export default App;

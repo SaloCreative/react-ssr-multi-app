@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import { withNamespaces } from 'react-i18next';
 import styled from 'styled-components';
 
 // COMPONENTS
@@ -18,7 +17,7 @@ const NavItem = styled(NavLink)`
 
 class Menu extends React.Component {
   render() {
-    const { t, routes, language } = this.props;
+    const { routes, language } = this.props;
     return (
       <Sidebar width={ 240 } padding='4rem'>
         <Logo
@@ -32,7 +31,7 @@ class Menu extends React.Component {
           className='header-font'
           to={ routes.HOME.path.replace(':language', language) }
         >
-          { t(routes.HOME.title) }
+          { 'T => ' + routes.HOME.title }
         </NavItem>
         <NavItem
           activeClassName='active'
@@ -40,7 +39,7 @@ class Menu extends React.Component {
           className='header-font'
           to={ routes.AUTHENTICATED_ROUTE.path.replace(':language', language) }
         >
-          { t(routes.AUTHENTICATED_ROUTE.title) }
+          { 'T => ' + routes.AUTHENTICATED_ROUTE.title }
         </NavItem>
         <NavItem
           activeClassName='active'
@@ -48,7 +47,7 @@ class Menu extends React.Component {
           className='header-font'
           to={ routes.WHOOPS.path.replace(':language', language) }
         >
-          { t(routes.WHOOPS.title) }
+          { 'T => ' + routes.WHOOPS.title }
         </NavItem>
         <NavItem
           activeClassName='active'
@@ -56,7 +55,7 @@ class Menu extends React.Component {
           className='header-font'
           to={ `${ routes.HOME.path.replace(':language', language) }/404` }
         >
-          { t('404') }
+          {  'T => 404' }
         </NavItem>
       </Sidebar>
     );
@@ -65,8 +64,7 @@ class Menu extends React.Component {
 
 Menu.propTypes = {
   routes: PropTypes.object.isRequired,
-  language: PropTypes.string.isRequired,
-  t: PropTypes.func.isRequired
+  language: PropTypes.string.isRequired
 };
 
-export default withNamespaces(['common'])(Menu);
+export default Menu;

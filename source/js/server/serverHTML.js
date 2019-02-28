@@ -36,7 +36,6 @@ const ServerHtml = ({
       { helmet.style.toComponent() }
       { styles.getStyleElement() }
       <link rel='shortcut icon' type='image/png' href={ `/${ outputFiles.favicon }` } />
-      <link rel='stylesheet' href={ `/${ outputFiles.css }` } />
     </head>
     <body>
       <div

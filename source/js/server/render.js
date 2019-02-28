@@ -3,7 +3,6 @@ import { get } from 'lodash';
 import ReactDOMServer from 'react-dom/server';
 import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
 import Helmet from 'react-helmet';
-import { I18nextProvider } from 'react-i18next';
 import { ApolloProvider, getDataFromTree } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
@@ -20,25 +19,6 @@ import FiveHundred from '../../assets/pages/500.html';
 // HELPERS
 import { ENV } from '../helpers';
 import CONFIG from '../config';
-import createi18nServerInstance from './i18n.server'; // initialised i18next instances
-
-function getI18n({ locale, appName }) {
-  return new Promise((resolve) => {
-    const i18n = createi18nServerInstance(appName);
-    i18n.changeLanguage(locale, () => { // changeLanguage is asyncronous
-      const app = i18n.getResourceBundle(locale, appName);
-      const common = i18n.getResourceBundle(locale, 'common');
-      const i18nData = {
-        locale,
-        resources: {
-          [appName]: app,
-          common
-        }
-      };
-      resolve({ i18n, i18nData });
-    });
-  });
-}
 
 function getApolloClient({ tokens }) {
   // Setup ApolloClient instance for SSR fetches
@@ -98,7 +78,6 @@ function renderReact(AppHtml) {
 export default async ({
   res, App, locale, url, appName, tokens
 }) => {
-  const { i18n, i18nData } = await getI18n({ locale, appName });
   const apolloClient = getApolloClient({ tokens });
 
   // Context is passed to the StaticRouter and it will attach data to it directly
@@ -109,11 +88,9 @@ export default async ({
   const AppHtml = (
     <ApolloProvider client={ apolloClient }>
       <AuthProvider tokens={ tokens }>
-        <I18nextProvider i18n={ i18n }>
-          <StyleSheetManager sheet={ sheet.instance }>
-            <Server location={ url } context={ context } AppContainer={ App } />
-          </StyleSheetManager>
-        </I18nextProvider>
+        <StyleSheetManager sheet={ sheet.instance }>
+          <Server location={ url } context={ context } AppContainer={ App } />
+        </StyleSheetManager>
       </AuthProvider>
     </ApolloProvider>
   );
@@ -135,7 +112,7 @@ export default async ({
       appHtml,
       helmet,
       styles: sheet,
-      i18n: i18nData,
+      i18n: { locale: 'en' },
       state,
       appName
     });

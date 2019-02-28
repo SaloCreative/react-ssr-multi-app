@@ -1,7 +1,5 @@
 import express from 'express';
-import i18nMiddleware from 'i18next-express-middleware';
 
-import createi18nServerInstance from './server/i18n.server'; // initialised i18next instances
 import routes from './server/routes';
 import FourOFour from '../assets/pages/404.html';
 
@@ -15,7 +13,6 @@ if (ENV === 'production' || ENV === 'staging') {
 }
 
 app.use('/client', express.static('build/client'));
-app.use(i18nMiddleware.handle(createi18nServerInstance()));
 app.disable('x-powered-by');
 
 app.use((req, res, next) => {

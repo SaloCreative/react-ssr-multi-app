@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import i18next from 'i18next';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 
 // HELPERS
 import { isBrowser } from '../../../../helpers';
-import history from '../../../../config/browserHistory';
 import CONFIG from '../../../../config';
 import Loader from '../../../../components/loader';
 
@@ -29,17 +27,6 @@ export default function Page(ComposedComponent) {
           return {
             languageValid: false
           };
-        }
-        
-        // Check if the language has changed
-        if (language !== i18next.language) {
-          i18next.changeLanguage(language);
-          try {
-            localStorage.clear();
-            localStorage.setItem('version', VERSION); // eslint-disable-line
-          } catch (e) {
-            // console && console.log('could not set');
-          }
         }
       }
       return {
