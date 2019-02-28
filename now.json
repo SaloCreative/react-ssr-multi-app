@@ -1,0 +1,17 @@
+{
+  "name": "react-ssr",
+  "version": 2,
+  "builds": [
+    {
+      "src": "build/app.js",
+      "use": "@now/node-server",
+      "config": { "maxLambdaSize": "35mb"}
+    },
+    { "src": "build/client/**", "use": "@now/static" }
+  ],
+  "routes": [
+    {"src": "^/client/(.*)", "dest": "/build/client/$1"},
+    { "src": "/.*", "dest": "build/app.js" }
+
+  ]
+}
