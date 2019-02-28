@@ -7,6 +7,7 @@ import styled from 'styled-components';
 // COMPONENTS
 import { Container } from '../../../../components';
 import Menu from '../../../../components/app/menu';
+import Normalise from '../../../../components/global/normalise';
 
 // HELPERS
 import renderRoutes from '../../../../components/app/renderRoutes';
@@ -30,6 +31,7 @@ class App extends React.Component {
     return (
       <AppWrapper>
         <Helmet titleTemplate='%s | Salo Creative' />
+        <Normalise />
         <NamespacesConsumer>
           { (t, { i18n }) => (
             <React.Fragment>

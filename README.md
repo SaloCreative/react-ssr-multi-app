@@ -52,10 +52,10 @@ The main features are:
 
 # Setup
 
-first of all clone down the repo and then run `yarn` to pull in all the dependencies
+first of all clone down the repo and then run `npm` to pull in all the dependencies
 
 ```
-$ yarn
+$ npm i
 ```
 
 ## Adding apps
@@ -65,7 +65,7 @@ The repo has centralised config files for handling the rendering and store confi
 You can manually add apps, routes and contollers as you need, especially if you have your own app structures or need a route that isn't for react. However, for ease there is a helper script to automatically generate the new applications for you. Simply run the below and it will clone the contents of the base app in the lib folder for you replacing the config as needed: 
 
 ```
-$ yarn add:app
+$ npm run add:app
 ```
 
 ## Development
