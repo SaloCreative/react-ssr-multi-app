@@ -23,7 +23,7 @@ const ApolloWarning = () => (
 );
 
 const ServerHtml = ({
-  appHtml, state, helmet, styles, i18n, appName
+  appHtml, apolloState, helmet, styles, i18n, appName
 }) => (
   <html lang={ i18n.locale }>
     <head>
@@ -41,14 +41,14 @@ const ServerHtml = ({
     <body>
       <div
         id='root'
-        dangerouslySetInnerHTML={ { __html: appHtml } } // eslint-disable-line
+        dangerouslySetInnerHTML={ { __html: appHtml.html } } // eslint-disable-line
       />
-      { !appHtml && <RenderWarning /> }
+      { appHtml.error && <RenderWarning /> }
       <script
         type='text/javascript'
-        dangerouslySetInnerHTML={ { __html: `window.__APOLLO_STATE__=${ state };` } } // eslint-disable-line
+        dangerouslySetInnerHTML={ { __html: `window.__APOLLO_STATE__=${ apolloState.state };` } } // eslint-disable-line
       />
-      { state === '{}' && ENV === 'development' && <ApolloWarning /> }
+      { apolloState.error && ENV === 'development' && <ApolloWarning /> }
       <script
         charSet='UTF-8'
         dangerouslySetInnerHTML={ { __html: `window.__i18n=${ serialize(i18n) };` } } // eslint-disable-line
@@ -61,8 +61,8 @@ const ServerHtml = ({
 );
 
 ServerHtml.propTypes = {
-  appHtml: PropTypes.string.isRequired,
-  state: PropTypes.string.isRequired,
+  appHtml: PropTypes.object.isRequired,
+  apolloState: PropTypes.object.isRequired,
   appName: PropTypes.string.isRequired,
   helmet: PropTypes.object.isRequired,
   styles: PropTypes.object.isRequired,
@@ -70,11 +70,11 @@ ServerHtml.propTypes = {
 };
 
 const getServerHtml = ({
-  appHtml, state, helmet, styles, i18n, appName
+  appHtml, apolloState, helmet, styles, i18n, appName
 }) => {
-  return `<!doctype html>${ ReactDOMServer.renderToString(<ServerHtml
+  return `<!doctype html>${ ReactDOMServer.renderToStaticMarkup(<ServerHtml
     appHtml={ appHtml }
-    state={ state }
+    apolloState={ apolloState }
     helmet={ helmet }
     styles={ styles }
     i18n={ i18n }

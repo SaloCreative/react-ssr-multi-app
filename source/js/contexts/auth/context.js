@@ -1,12 +1,5 @@
 import { createContext } from 'react';
 
-const { Provider, Consumer } = createContext({
-  user: {},
-  jwt: {},
-  login: () => {},
-  logout: () => {},
-  loggedIn: () => false,
-  hasPermissions: () => false
-});
+const { Provider, Consumer } = createContext({});
 
 export { Provider, Consumer };

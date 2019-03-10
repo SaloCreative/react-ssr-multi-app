@@ -9,7 +9,7 @@ const LogoWrap = styled.div`
   width: 100%;
   font-family: 'bebas_neuebook', Arial, Helvetica, sans-serif;
   overflow: hidden;
-  padding: ${ props => props.padding }
+  padding: ${ props => props.padding };
 `;
 
 const SVGContainer = styled.div`

@@ -4,7 +4,7 @@ import ReactDOMServer from 'react-dom/server';
 import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
 import Helmet from 'react-helmet';
 import { I18nextProvider } from 'react-i18next';
-import { ApolloProvider, getDataFromTree } from 'react-apollo';
+import { ApolloProvider, renderToStringWithData } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
@@ -70,26 +70,27 @@ function getApolloClient({ tokens }) {
 async function getApolloData({ AppHtml, client }) {
   // Use ApolloClient to fetch data pre-render
   try {
-    await getDataFromTree(AppHtml);
+    const content = await renderToStringWithData(AppHtml);
     const dehydratedApolloState = client.extract();
-    return JSON.stringify(dehydratedApolloState).replace(/</g, '\\u003c');
+    return {
+      content,
+      state: JSON.stringify(dehydratedApolloState).replace(/</g, '\\u003c')
+    };
   } catch (error) {
-    if (ENV !== 'production') {
-      console.error(error.graphQLErrors || error);// eslint-disable-line no-console
-    }
-    return '{}';
+    console.error('Error in getApolloData', error.graphQLErrors || error);
+    return { state: '{}', content: '', error: error.graphQLErrors || error };
   }
 }
 
 function renderReact(AppHtml) {
   try {
-    return ReactDOMServer.renderToString(AppHtml);
+    return {
+      html: AppHtml
+    };
   } catch (error) {
     if (process.env.NODE_ENV === 'development') {
-      if (ENV !== 'production') {
-        console.error(error);// eslint-disable-line no-console
-      }
-      return '';
+      console.error(error);
+      return { html: '', error };
     }
     throw error;
   }
@@ -118,9 +119,9 @@ export default async ({
     </ApolloProvider>
   );
 
-  const state = await getApolloData({ AppHtml, client: apolloClient });
+  const apolloState = await getApolloData({ AppHtml, client: apolloClient });
   try {
-    const appHtml = renderReact(AppHtml);
+    const appHtml = renderReact(apolloState.content);
     // Context has url, which means `<Redirect>` was rendered somewhere
     if (context.url) {
       return res.redirect(302, context.url);
@@ -130,13 +131,12 @@ export default async ({
     }
 
     const helmet = Helmet.renderStatic();
-
     const serverHtml = getServerHtml({
       appHtml,
       helmet,
       styles: sheet,
       i18n: i18nData,
-      state,
+      apolloState,
       appName
     });
 
